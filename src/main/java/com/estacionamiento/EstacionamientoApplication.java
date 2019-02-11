@@ -44,7 +44,6 @@ public class EstacionamientoApplication {
 			fechaSalida.set(Calendar.MONTH, Calendar.FEBRUARY);
 			fechaSalida.set(Calendar.DAY_OF_MONTH, 11);
 			fechaSalida.set(Calendar.HOUR_OF_DAY, 11);
-			//facturaParqueo.setFechaSalida(fechaSalida);
 			facturaParqueo.setEstado(EstacionamientoUtil.ESTADO_PENDIENTE);
 			facturaParqueo.setValorServicio(0);
 			facturaParqueo.setPlaca(EstacionamientoUtil.PLACA_PRUEBA);
