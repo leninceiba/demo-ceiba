@@ -29,7 +29,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 	@Autowired
 	FacturaParqueoRepository facturaParqueoRepository;
 	
-	private static final Logger logger = LoggerFactory.getLogger(EstacionamientoServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(EstacionamientoServiceImpl.class);
 
 	@Override
 	@Transactional
@@ -48,7 +48,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 		}catch(EstacionamientoException e){
 			
 			facturaParqueoEntity.setError(e.getMessage());
-			logger.error(e.getMessage());
+			LOGGER.error(e.getMessage());
 		}
 		
 		return facturaParqueoEntity;
@@ -70,7 +70,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 		}catch(EstacionamientoException e){
 			
 			servicioParqueo.setError(e.getMessage());
-			logger.error(e.getMessage());			
+			LOGGER.error(e.getMessage());			
 		}
 		return servicioParqueo;
 	}
@@ -99,7 +99,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 		
 		FacturaParqueoEntity facturaParqueoEntity = null;
 		FacturaParqueo facturaParqueo = null;
-		PeticionServicioParqueo peticionServicioParqueo = (PeticionServicioParqueo)servicioParqueo.getPeticionServicioParqueo();
+		PeticionServicioParqueo peticionServicioParqueo = servicioParqueo.getPeticionServicioParqueo();
 		if(null!=peticionServicioParqueo){
 			
 			if(null!=peticionServicioParqueo.getPlacaVehiculo() && null == peticionServicioParqueo.getCilindrajeMoto()){
