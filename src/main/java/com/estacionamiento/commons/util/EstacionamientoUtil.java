@@ -16,7 +16,6 @@ public final class EstacionamientoUtil {
 	
 	public EstacionamientoUtil() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public static EstacionamientoUtil getInstance(){
