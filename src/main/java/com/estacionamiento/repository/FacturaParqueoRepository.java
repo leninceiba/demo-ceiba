@@ -10,7 +10,7 @@ import com.estacionamiento.entity.FacturaParqueoEntity;
 
 public interface FacturaParqueoRepository extends JpaRepository<FacturaParqueoEntity, Long> {
 
-	public  FacturaParqueoEntity findByPlaca(String placa);
+	public  FacturaParqueoEntity findByPlacaVehiculo(String placaVehiculo);
 	
 	public  FacturaParqueoEntity findById(long id);
 	

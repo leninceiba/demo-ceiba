@@ -104,8 +104,5 @@ public class ServicioParqueoEntity implements Serializable {
 	public void setCupoMaximo(int cupoMaximo) {
 		this.cupoMaximo = cupoMaximo;
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}	
+	
 }

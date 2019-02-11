@@ -10,6 +10,7 @@ public final class EstacionamientoUtil {
 	public static final String ESTADO_PENDIENTE = "PENDIENTE";
 	public static final String ESTADO_PAGADO = "PAGADO";
 	public static final String ERROR_CREANDO_FACTURA = "Error intentando crear la factura del parqueo.";
+	public static final String PLACA_PRUEBA = "dnp142";
 	
 	public EstacionamientoUtil(){
 		
