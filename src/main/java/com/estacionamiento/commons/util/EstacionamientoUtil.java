@@ -12,10 +12,13 @@ public final class EstacionamientoUtil {
 	public static final String ERROR_CREANDO_FACTURA = "Error intentando crear la factura del parqueo.";
 	public static final String PLACA_PRUEBA = "dnp142";
 	
-	public EstacionamientoUtil(){
-		
-	}
+
 	
+	public EstacionamientoUtil() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public static EstacionamientoUtil getInstance(){
 		
 		if(estacionamientoUtil == null){
