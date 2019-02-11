@@ -1,4 +1,4 @@
-package com.estacionamiento.serviceImpl;
+package com.estacionamiento.service.impl;
 
 import java.util.Calendar;
 
@@ -48,7 +48,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 		}catch(EstacionamientoException e){
 			
 			facturaParqueoEntity.setError(e.getMessage());
-			LOGGER.error(e.getMessage());
+			LOGGER.error(EstacionamientoUtil.ERROR_METODO_REGISTRO_FACTURA,e);
 		}
 		
 		return facturaParqueoEntity;
@@ -70,7 +70,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 		}catch(EstacionamientoException e){
 			
 			servicioParqueo.setError(e.getMessage());
-			LOGGER.error(e.getMessage());			
+			LOGGER.error(EstacionamientoUtil.ERROR_METODO_COMPROBAR_DISPONIBILIDAD,e);			
 		}
 		return servicioParqueo;
 	}
