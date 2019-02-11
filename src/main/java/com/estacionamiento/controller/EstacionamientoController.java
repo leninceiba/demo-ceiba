@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.estacionamiento.entity.FacturaParqueoEntity;
+import com.estacionamiento.exception.EstacionamientoException;
 import com.estacionamiento.model.ServicioParqueo;
 import com.estacionamiento.service.IEstacionamientoService;
 
@@ -27,7 +28,7 @@ public class EstacionamientoController {
 	}
 	
 	@PostMapping("/registro")	
-	public FacturaParqueoEntity registrarEntradaEstacionamiento(@RequestBody ServicioParqueo servicioParqueo) throws Exception{
+	public FacturaParqueoEntity registrarEntradaEstacionamiento(@RequestBody ServicioParqueo servicioParqueo) throws EstacionamientoException{
 		return this.estacionamientoService.registrarEntradaEstacionamiento(servicioParqueo);		
 	}
 }
