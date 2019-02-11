@@ -29,7 +29,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 	@Autowired
 	FacturaParqueoRepository facturaParqueoRepository;
 	
-	private static final Logger log = LoggerFactory.getLogger(EstacionamientoServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(EstacionamientoServiceImpl.class);
 
 	@Override
 	@Transactional
@@ -39,7 +39,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 		try{
 			
 			servicioParqueo = this.comprobarDisponibilidadParqueo((null != servicioParqueo && null!=servicioParqueo.getPeticionServicioParqueo()) ? servicioParqueo.getPeticionServicioParqueo() : null);
-			if(null!=servicioParqueo){
+			if(null==servicioParqueo.getError()){
 				
 				facturaParqueoEntity = this.crearFactura(servicioParqueo);
 				facturaParqueoRepository.save(facturaParqueoEntity);
@@ -48,7 +48,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 		}catch(EstacionamientoException e){
 			
 			facturaParqueoEntity.setError(e.getMessage());
-			log.error(e.getMessage());
+			logger.error(e.getMessage());
 		}
 		
 		return facturaParqueoEntity;
@@ -59,21 +59,18 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 		ServicioParqueo servicioParqueo = new ServicioParqueo();
 		try{
 			
-			if(null!=peticionServicioParqueo){
+			if(null!=peticionServicioParqueo && peticionServicioParqueo.getTipoVehiculo()>0){
+					
+				servicioParqueo = this.comprobarCupoDisponible(peticionServicioParqueo.getTipoVehiculo());
 				
-				if(peticionServicioParqueo.getTipoVehiculo()>0){
-					
-					servicioParqueo = this.comprobarCupoDisponible(peticionServicioParqueo.getTipoVehiculo());
-					
-					this.validarRestriccionPlacaVehiculo(peticionServicioParqueo);
-					
-					servicioParqueo.setPeticionServicioParqueo(peticionServicioParqueo);
-				}
+				this.validarRestriccionPlacaVehiculo(peticionServicioParqueo);
+				
+				servicioParqueo.setPeticionServicioParqueo(peticionServicioParqueo);
 			}
 		}catch(EstacionamientoException e){
 			
 			servicioParqueo.setError(e.getMessage());
-			log.error(e.getMessage());			
+			logger.error(e.getMessage());			
 		}
 		return servicioParqueo;
 	}
