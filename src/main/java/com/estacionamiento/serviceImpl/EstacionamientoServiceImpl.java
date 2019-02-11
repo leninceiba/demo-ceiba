@@ -16,6 +16,7 @@ import com.estacionamiento.model.FacturaParqueoCarro;
 import com.estacionamiento.model.FacturaParqueoMoto;
 import com.estacionamiento.model.PeticionServicioParqueo;
 import com.estacionamiento.model.ServicioParqueo;
+import com.estacionamiento.repository.FacturaParqueoRepository;
 import com.estacionamiento.repository.ServicioParqueoRepository;
 import com.estacionamiento.service.IEstacionamientoService;
 
@@ -24,6 +25,9 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 	
 	@Autowired
 	ServicioParqueoRepository servicioParqueoRepository;
+	
+	@Autowired
+	FacturaParqueoRepository facturaParqueoRepository;
 	
 	private static final Logger log = LoggerFactory.getLogger(EstacionamientoServiceImpl.class);
 
@@ -38,7 +42,8 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 			if(null!=servicioParqueo){
 				
 				facturaParqueoEntity = this.crearFactura(servicioParqueo);
-				
+				facturaParqueoRepository.save(facturaParqueoEntity);
+				servicioParqueoRepository.descontarCupoDisponible(servicioParqueo.getId());
 			}
 		}catch(EstacionamientoException e){
 			
@@ -46,7 +51,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 			log.error(e.getMessage());
 		}
 		
-		return null;
+		return facturaParqueoEntity;
 	}
 	
 	private ServicioParqueo comprobarDisponibilidadParqueo(PeticionServicioParqueo peticionServicioParqueo) {
