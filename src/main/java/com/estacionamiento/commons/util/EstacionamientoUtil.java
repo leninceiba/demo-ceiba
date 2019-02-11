@@ -13,6 +13,11 @@ public final class EstacionamientoUtil {
 	public static final String PLACA_PRUEBA = "dnp142";
 	
 
+	
+	private EstacionamientoUtil() {
+		super();
+	}
+
 	public static EstacionamientoUtil getInstance(){
 		
 		if(estacionamientoUtil == null){
