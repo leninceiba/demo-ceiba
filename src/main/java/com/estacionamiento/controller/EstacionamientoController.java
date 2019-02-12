@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.estacionamiento.entity.FacturaParqueoEntity;
 import com.estacionamiento.exception.EstacionamientoException;
-import com.estacionamiento.model.ServicioParqueo;
+import com.estacionamiento.model.PeticionServicioParqueo;
 import com.estacionamiento.service.IEstacionamientoService;
 
 @RestController
@@ -27,8 +27,8 @@ public class EstacionamientoController {
 		return ("<div style=\"text-align : center\">::::+> Bienvenido a tu Estacionamiento Preferido <+::::</div>");
 	}
 	
-	@PostMapping("/registro")	
-	public FacturaParqueoEntity registrarEntradaEstacionamiento(@RequestBody ServicioParqueo servicioParqueo) throws EstacionamientoException{
-		return this.estacionamientoService.registrarEntradaEstacionamiento(servicioParqueo);		
+	@PostMapping("/registroEntrada")	
+	public FacturaParqueoEntity registrarEntradaEstacionamiento(@RequestBody PeticionServicioParqueo peticionServicioParqueo) throws EstacionamientoException{
+		return this.estacionamientoService.registrarEntradaEstacionamiento(peticionServicioParqueo);		
 	}
 }
