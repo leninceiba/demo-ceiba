@@ -14,12 +14,11 @@ public class PeticionServicioParqueo {
 		
 	}
 	
-	public PeticionServicioParqueo(String placaVehiculo, String cilindrajeMoto, int tipoVehiculo, String error, Calendar fecha) {
+	public PeticionServicioParqueo(String placaVehiculo, String cilindrajeMoto, int tipoVehiculo, Calendar fecha) {
 		super();
 		this.placaVehiculo = placaVehiculo;
 		this.cilindrajeMoto = cilindrajeMoto;
 		this.tipoVehiculo = tipoVehiculo;
-		this.error = error;
 		this.fecha = fecha;
 	}
 

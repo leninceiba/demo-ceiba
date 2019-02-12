@@ -5,6 +5,7 @@ import com.estacionamiento.entity.ServicioParqueoEntity;
 public class ServicioParqueo {
 	
 	private long id;
+	private int codigo;
 	private String descripcion;
 	private long tarifaHora;
 	private long tarifaDia;
@@ -17,20 +18,21 @@ public class ServicioParqueo {
 		
 	}
 	
-	public ServicioParqueo(String descripcion, long tarifaHora, long tarifaDia, int cupoMaximo, int cupoDisponible, String error, PeticionServicioParqueo peticionServicioParqueo){
+	public ServicioParqueo(int codigo, String descripcion, long tarifaHora, long tarifaDia, int cupoMaximo, int cupoDisponible, PeticionServicioParqueo peticionServicioParqueo){
 		super();
+		this.codigo = codigo;
 		this.descripcion = descripcion;
 		this.tarifaHora = tarifaHora;
 		this.tarifaDia = tarifaDia;
 		this.cupoMaximo = cupoMaximo;
 		this.cupoDisponible = cupoDisponible;
-		this.error = error;
 		this.peticionServicioParqueo = peticionServicioParqueo;
 	}
 	
 	public ServicioParqueo(ServicioParqueoEntity servicioParqueoEntity){
 		super();
 		this.id = servicioParqueoEntity.getId();
+		this.codigo = servicioParqueoEntity.getCodigo();
 		this.descripcion = servicioParqueoEntity.getDescripcion();
 		this.tarifaHora = servicioParqueoEntity.getTarifaHora();
 		this.tarifaDia = servicioParqueoEntity.getTarifaDia();
@@ -44,6 +46,14 @@ public class ServicioParqueo {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getDescripcion() {
