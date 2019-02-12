@@ -6,6 +6,7 @@ public final class EstacionamientoUtil {
 	
 	private static EstacionamientoUtil estacionamientoUtil; 
 	public static final String SIN_CUPO = "No hay cupos disponibles.";
+	public static final String EXISTE_VEHICULO = "Ya existe un vehículo parqueado con esa placa.";
 	public static final String PLACA_NO_AUTORIZADA = "Las placas que inician por la letra A no estan autorizadas para entrar al estacionamiento los días domingos y lunes.";
 	public static final String ESTADO_PENDIENTE = "PENDIENTE";
 	public static final String ESTADO_PAGADO = "PAGADO";
