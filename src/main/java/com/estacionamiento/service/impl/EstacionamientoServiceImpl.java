@@ -64,12 +64,12 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 		return facturaParqueoEntity;
 	}
 	
-	private FacturaParqueoEntity existeVehiculoParqueado(PeticionServicioParqueo peticionServicioParqueo){
+	public FacturaParqueoEntity existeVehiculoParqueado(PeticionServicioParqueo peticionServicioParqueo){
 		
 		return facturaParqueoRepository.findByPlacaVehiculoByEstado(peticionServicioParqueo.getPlacaVehiculo(), EstacionamientoUtil.ESTADO_PENDIENTE);
 	}
 	
-	private ServicioParqueo comprobarDisponibilidadParqueo(PeticionServicioParqueo peticionServicioParqueo) {
+	public ServicioParqueo comprobarDisponibilidadParqueo(PeticionServicioParqueo peticionServicioParqueo) {
 		
 		ServicioParqueo servicioParqueo = new ServicioParqueo();
 		try{
@@ -91,7 +91,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 		return servicioParqueo;
 	}
 	
-	private ServicioParqueo comprobarCupoDisponible(int codigo) throws EstacionamientoException{
+	public ServicioParqueo comprobarCupoDisponible(int codigo) throws EstacionamientoException{
 		
 		ServicioParqueo servicioParqueo = new ServicioParqueo(servicioParqueoRepository.findByCodigo(codigo));
 		if(servicioParqueo.getCupoDisponible() == 0){
@@ -111,7 +111,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 		
 	}
 	
-	private FacturaParqueoEntity crearFactura(ServicioParqueo servicioParqueo) throws EstacionamientoException{
+	public FacturaParqueoEntity crearFactura(ServicioParqueo servicioParqueo) throws EstacionamientoException{
 		
 		FacturaParqueoEntity facturaParqueoEntity = null;
 		FacturaParqueo facturaParqueo = null;
