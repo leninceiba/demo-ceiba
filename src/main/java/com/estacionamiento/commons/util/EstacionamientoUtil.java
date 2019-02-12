@@ -1,6 +1,8 @@
 package com.estacionamiento.commons.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public final class EstacionamientoUtil {
 	
@@ -42,5 +44,20 @@ public final class EstacionamientoUtil {
 	public static boolean placaVehiculoIniciaPorA(String placaVehiculo) {
 		
 		return placaVehiculo.toUpperCase().indexOf('A') == 0;
+	}	
+	
+	public static Calendar getFechaCalendar(String formato , String fecha) {
+		
+		Date date = new Date();
+		Calendar fechaCalendar = Calendar.getInstance();
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat(formato);			
+			date = sdf.parse(fecha);
+			
+		} catch (Exception e) {
+		}
+		fechaCalendar.setTime(date);
+		
+		return fechaCalendar;
 	}	
 }
