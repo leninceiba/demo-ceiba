@@ -33,25 +33,40 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 
 	@Override
 	@Transactional
-	public FacturaParqueoEntity registrarEntradaEstacionamiento(ServicioParqueo servicioParqueo) throws EstacionamientoException{
+	public FacturaParqueoEntity registrarEntradaEstacionamiento(PeticionServicioParqueo peticionServicioParqueo) throws EstacionamientoException{
 		
 		FacturaParqueoEntity facturaParqueoEntity = new FacturaParqueoEntity();
+		ServicioParqueo servicioParqueo = null;
 		try{
 			
-			servicioParqueo = this.comprobarDisponibilidadParqueo((null != servicioParqueo && null!=servicioParqueo.getPeticionServicioParqueo()) ? servicioParqueo.getPeticionServicioParqueo() : null);
-			if(null==servicioParqueo.getError()){
+			FacturaParqueoEntity facturaParqueoExiste = this.existeVehiculoParqueado(peticionServicioParqueo);
+			if(null == facturaParqueoExiste){
 				
-				facturaParqueoEntity = this.crearFactura(servicioParqueo);
-				facturaParqueoRepository.save(facturaParqueoEntity);
-				servicioParqueoRepository.descontarCupoDisponible(servicioParqueo.getId());
+				servicioParqueo = this.comprobarDisponibilidadParqueo(peticionServicioParqueo);
+				if(null==servicioParqueo.getError()){
+					
+					facturaParqueoEntity = this.crearFactura(servicioParqueo);
+					facturaParqueoRepository.save(facturaParqueoEntity);
+					servicioParqueoRepository.descontarCupoDisponible(servicioParqueo.getId());
+				}else{
+				
+					facturaParqueoEntity.setError(servicioParqueo.getError());
+				}
+			}else{
+				
+				facturaParqueoEntity.setError(EstacionamientoUtil.EXISTE_VEHICULO);
 			}
 		}catch(EstacionamientoException e){
 			
-			facturaParqueoEntity.setError(e.getMessage());
 			LOGGER.error(EstacionamientoUtil.ERROR_METODO_REGISTRO_FACTURA,e);
 		}
 		
 		return facturaParqueoEntity;
+	}
+	
+	private FacturaParqueoEntity existeVehiculoParqueado(PeticionServicioParqueo peticionServicioParqueo){
+		
+		return facturaParqueoRepository.findByPlacaVehiculoByEstado(peticionServicioParqueo.getPlacaVehiculo(), EstacionamientoUtil.ESTADO_PENDIENTE);
 	}
 	
 	private ServicioParqueo comprobarDisponibilidadParqueo(PeticionServicioParqueo peticionServicioParqueo) {
@@ -59,17 +74,18 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 		ServicioParqueo servicioParqueo = new ServicioParqueo();
 		try{
 			
-			if(null!=peticionServicioParqueo && peticionServicioParqueo.getTipoVehiculo()>0){
+			if(null != peticionServicioParqueo && peticionServicioParqueo.getTipoVehiculo()>0){
 					
 				servicioParqueo = this.comprobarCupoDisponible(peticionServicioParqueo.getTipoVehiculo());
-				
-				this.validarRestriccionPlacaVehiculo(peticionServicioParqueo);
+				if(null==servicioParqueo.getError()){
+					
+					this.validarRestriccionPlacaVehiculo(peticionServicioParqueo);
+				}
 				
 				servicioParqueo.setPeticionServicioParqueo(peticionServicioParqueo);
 			}
 		}catch(EstacionamientoException e){
 			
-			servicioParqueo.setError(e.getMessage());
 			LOGGER.error(EstacionamientoUtil.ERROR_METODO_COMPROBAR_DISPONIBILIDAD,e);			
 		}
 		return servicioParqueo;
@@ -80,7 +96,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 		ServicioParqueo servicioParqueo = new ServicioParqueo(servicioParqueoRepository.findByCodigo(codigo));
 		if(servicioParqueo.getCupoDisponible() == 0){
 			
-			throw new EstacionamientoException(EstacionamientoUtil.SIN_CUPO);
+			servicioParqueo.setError(EstacionamientoUtil.SIN_CUPO);
 		}
 		return servicioParqueo;
 	}
