@@ -9,13 +9,16 @@ public final class EstacionamientoUtil {
 	private static EstacionamientoUtil estacionamientoUtil; 
 	public static final String SIN_CUPO = "No hay cupos disponibles.";
 	public static final String EXISTE_VEHICULO = "Ya existe un vehículo parqueado con esa placa.";
-	public static final String PLACA_NO_AUTORIZADA = "Las placas que inician por la letra A no estan autorizadas para entrar al estacionamiento los días domingos y lunes.";
+	public static final String PLACA_NO_AUTORIZADA = "Las placas que inician por la letra A solo pueden entrar al estacionamiento los días domingos y lunes.";
 	public static final String ESTADO_PENDIENTE = "PENDIENTE";
 	public static final String ESTADO_PAGADO = "PAGADO";
 	public static final String ERROR_CREANDO_FACTURA = "Error intentando crear la factura del parqueo.";
 	public static final String ERROR_METODO_REGISTRO_FACTURA = "Error en el método registrarEntradaEstacionamiento: ";
 	public static final String ERROR_METODO_COMPROBAR_DISPONIBILIDAD = "Error en el método comprobarDisponibilidadParqueo: ";
-	public static final String PLACA_PRUEBA = "dnp142";
+	public static final String PLACA_PRUEBA = "DNP142";
+	public static final String PLACA_EMPIEZA_CON_A = "ANP142";
+	public static final Calendar FECHA_ENTRADA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","12-03-2019 10:00:00");
+	public static final Calendar FECHA_SALIDA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","18-03-2019 13:10:00");		
 	
 
 	
