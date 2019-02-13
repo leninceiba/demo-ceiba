@@ -8,9 +8,6 @@ import com.estacionamiento.model.FacturaParqueoMoto;
 import com.estacionamiento.model.ServicioParqueo;
 
 public class FacturaParqueoBuild {
-	
-	private static final Calendar FECHA_ENTRADA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","12-03-2019 10:00:00");
-	private static final Calendar FECHA_SALIDA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","18-03-2019 13:10:00");	
 
 	private long id;
 	private Calendar fechaEntrada;
@@ -23,10 +20,10 @@ public class FacturaParqueoBuild {
 	private int cilindrajeMoto;
 	
 	public FacturaParqueoBuild() {
-		this.fechaEntrada = FECHA_ENTRADA;
-		this.fechaSalida = FECHA_SALIDA;
-		this.estado = "PENDIENTE";
-		this.placaVehiculo = "DNP142";
+		this.fechaEntrada = EstacionamientoUtil.FECHA_ENTRADA;
+		this.fechaSalida = EstacionamientoUtil.FECHA_SALIDA;
+		this.estado = EstacionamientoUtil.ESTADO_PENDIENTE;
+		this.placaVehiculo = "XHJ142";
 		this.servicioParqueo = new ServicioParqueoBuild().withCodigo(1).withDescripcion("carro").withCupoMaximo(20).withTarifaHora(1000).withTarifaDia(8000).build();
 	}
 
