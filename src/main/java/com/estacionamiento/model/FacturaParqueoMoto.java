@@ -42,5 +42,11 @@ public class FacturaParqueoMoto extends FacturaParqueo {
 	public void setCilindraje(int cilindraje) {
 		this.cilindraje = cilindraje;
 	}	
+	
+	@Override
+	public void calcularValorServicioParqueo(){
+		
+		Calendar fechaSalida = Calendar.getInstance();
+	}	
 
 }

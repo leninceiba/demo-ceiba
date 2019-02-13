@@ -91,4 +91,9 @@ public class FacturaParqueo {
 	public void setError(String error) {
 		this.error = error;
 	}	
+	
+	public void calcularValorServicioParqueo(){
+		
+		Calendar fechaSalida = Calendar.getInstance();
+	}
 }
