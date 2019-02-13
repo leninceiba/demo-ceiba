@@ -1,6 +1,7 @@
 package com.estacionamiento.service.impl;
 
 import java.util.Calendar;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,6 +87,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 			}
 		}catch(EstacionamientoException e){
 			
+			servicioParqueo.setError(e.getMessage());
 			LOGGER.error(EstacionamientoUtil.ERROR_METODO_COMPROBAR_DISPONIBILIDAD,e);			
 		}
 		return servicioParqueo;
@@ -134,6 +136,26 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 			facturaParqueoEntity = new FacturaParqueoEntity(facturaParqueo);
 		}
 		return facturaParqueoEntity;
+	}
+
+	@Override
+	@Transactional
+	public FacturaParqueo registrarSalidaEstacionamiento(long idFactura) throws EstacionamientoException {
+		FacturaParqueo facturaParqueo = null;
+		FacturaParqueoEntity facturaParqueoEntity = facturaParqueoRepository.findById(idFactura);
+		if(null!=facturaParqueoEntity){
+			
+			facturaParqueo = facturaParqueoEntity.getCilindrajeMoto() > 0 ? new FacturaParqueoMoto() : new FacturaParqueoCarro();
+			facturaParqueo.calcularValorServicioParqueo();
+		}
+		
+		return facturaParqueo;
+	}
+
+	@Override
+	public List<FacturaParqueoEntity> consultarFacturas() throws EstacionamientoException {
+		
+		return facturaParqueoRepository.findAllOrderByFechaEntradaDesc();
 	}
 
 }
