@@ -18,7 +18,7 @@ public interface FacturaParqueoRepository extends JpaRepository<FacturaParqueoEn
 	
 	public FacturaParqueoEntity findById(long id);
 	
-	public List<FacturaParqueoEntity> findAllByEstadoOrderByFechaEntradaDesc(String estado);
+	public List<FacturaParqueoEntity> findAllOrderByFechaEntradaDesc();
 	
 	@Transactional
 	@Modifying
