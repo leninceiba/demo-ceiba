@@ -2,6 +2,8 @@ package com.estacionamiento.model;
 
 import java.util.Calendar;
 
+import com.estacionamiento.commons.util.EstacionamientoUtil;
+
 public class FacturaParqueo {
 
 	private long id;
@@ -94,6 +96,26 @@ public class FacturaParqueo {
 	
 	public void calcularValorServicioParqueo(){
 		
-		Calendar fechaSalida = Calendar.getInstance();
+		setFechaSalida(Calendar.getInstance());
+		TiempoServicio tiempoServicio = EstacionamientoUtil.calcularTiempoServicio(this.getFechaEntrada(), this.getFechaSalida());
+		this.valorServicio = this.calcularValorTotalAPagar(tiempoServicio);
+		long diasEnHoras = tiempoServicio.getDias() * EstacionamientoUtil.DIA_EN_HORAS;
+		this.tiempoServicioHoras = tiempoServicio.getHoras() + diasEnHoras;
+	}
+	
+	public long calcularValorTotalAPagar(TiempoServicio tiempoServicio){
+		
+		long valorPorDias = tiempoServicio.getDias() > 0 ? tiempoServicio.getDias() * this.getServicioParqueo().getTarifaDia() : 0;
+		long valorPorHoras = tiempoServicio.getHoras() > 0 ? tiempoServicio.getHoras() * this.getServicioParqueo().getTarifaHora() : 0;
+		
+		if (EstacionamientoUtil.RANGO_COBRO_POR_HORAS <= tiempoServicio.getHoras()) {
+			
+			tiempoServicio.setDias(tiempoServicio.getDias() + 1);
+			tiempoServicio.setHoras(0);
+			valorPorHoras = tiempoServicio.getHoras() * this.getServicioParqueo().getTarifaHora();
+			valorPorDias = tiempoServicio.getDias() * this.getServicioParqueo().getTarifaHora();
+		}
+		
+		return valorPorHoras + valorPorDias;
 	}
 }

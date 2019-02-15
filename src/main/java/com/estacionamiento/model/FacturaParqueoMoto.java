@@ -2,6 +2,7 @@ package com.estacionamiento.model;
 
 import java.util.Calendar;
 
+import com.estacionamiento.commons.util.EstacionamientoUtil;
 import com.estacionamiento.entity.FacturaParqueoEntity;
 
 public class FacturaParqueoMoto extends FacturaParqueo {
@@ -46,7 +47,17 @@ public class FacturaParqueoMoto extends FacturaParqueo {
 	@Override
 	public void calcularValorServicioParqueo(){
 		
-		Calendar fechaSalida = Calendar.getInstance();
+		setFechaSalida(Calendar.getInstance());
+		TiempoServicio tiempoServicio = EstacionamientoUtil.calcularTiempoServicio(this.getFechaEntrada(), this.getFechaSalida());
+		this.valorServicio = this.calcularValorTotalAPagar(tiempoServicio);
+		this.aplicarRecargoPorCilindraje();
+		long diasEnHoras = tiempoServicio.getDias() * EstacionamientoUtil.DIA_EN_HORAS;
+		this.tiempoServicioHoras = tiempoServicio.getHoras() + diasEnHoras;
 	}	
+	
+	public void aplicarRecargoPorCilindraje(){
+		
+		this.valorServicio = this.getCilindraje() > EstacionamientoUtil.RANGO_CILINDRAJE_APLICA_RECARGO ? (this.valorServicio + EstacionamientoUtil.RECARGO_CILINDRAJES_MAYORES_A_500) : this.valorServicio;
+	}
 
 }
