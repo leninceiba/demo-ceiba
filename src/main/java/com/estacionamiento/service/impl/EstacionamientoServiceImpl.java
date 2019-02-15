@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.estacionamiento.commons.util.EstacionamientoUtil;
-import com.estacionamiento.entity.FacturaParqueoEntity;
+import com.estacionamiento.entity.VehiculoParqueoEntity;
 import com.estacionamiento.entity.ServicioParqueoEntity;
 import com.estacionamiento.exception.EstacionamientoException;
-import com.estacionamiento.model.FacturaParqueo;
-import com.estacionamiento.model.FacturaParqueoCarro;
-import com.estacionamiento.model.FacturaParqueoMoto;
+import com.estacionamiento.model.VehiculoParqueo;
+import com.estacionamiento.model.VehiculoParqueoCarro;
+import com.estacionamiento.model.VehiculoParqueoMoto;
 import com.estacionamiento.model.PeticionServicioParqueo;
 import com.estacionamiento.model.ServicioParqueo;
-import com.estacionamiento.repository.FacturaParqueoRepository;
+import com.estacionamiento.repository.VehiculoParqueoRepository;
 import com.estacionamiento.repository.ServicioParqueoRepository;
 import com.estacionamiento.service.IEstacionamientoService;
 
@@ -29,46 +29,46 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 	ServicioParqueoRepository servicioParqueoRepository;
 	
 	@Autowired
-	FacturaParqueoRepository facturaParqueoRepository;
+	VehiculoParqueoRepository vehiculoParqueoRepository;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(EstacionamientoServiceImpl.class);
 
 	@Override
 	@Transactional
-	public FacturaParqueoEntity registrarEntradaEstacionamiento(PeticionServicioParqueo peticionServicioParqueo) throws EstacionamientoException{
+	public VehiculoParqueoEntity registrarEntradaEstacionamiento(PeticionServicioParqueo peticionServicioParqueo) throws EstacionamientoException{
 		
-		FacturaParqueoEntity facturaParqueoEntity = new FacturaParqueoEntity();
+		VehiculoParqueoEntity vehiculoParqueoEntity = new VehiculoParqueoEntity();
 		ServicioParqueo servicioParqueo = null;
 		try{
 			
-			FacturaParqueoEntity facturaParqueoExiste = this.existeVehiculoParqueado(peticionServicioParqueo);
+			VehiculoParqueoEntity facturaParqueoExiste = this.existeVehiculoParqueado(peticionServicioParqueo);
 			if(null == facturaParqueoExiste){
 				
 				servicioParqueo = this.comprobarDisponibilidadParqueo(peticionServicioParqueo);
 				if(null==servicioParqueo.getError()){
 					
-					facturaParqueoEntity = this.crearFactura(servicioParqueo);
-					facturaParqueoRepository.save(facturaParqueoEntity);
+					vehiculoParqueoEntity = this.crearFactura(servicioParqueo);
+					vehiculoParqueoRepository.save(vehiculoParqueoEntity);
 					servicioParqueoRepository.descontarCupoDisponible(servicioParqueo.getId());
 				}else{
 				
-					facturaParqueoEntity.setError(servicioParqueo.getError());
+					vehiculoParqueoEntity.setError(servicioParqueo.getError());
 				}
 			}else{
 				
-				facturaParqueoEntity.setError(EstacionamientoUtil.EXISTE_VEHICULO);
+				vehiculoParqueoEntity.setError(EstacionamientoUtil.EXISTE_VEHICULO);
 			}
 		}catch(EstacionamientoException e){
 			
 			LOGGER.error(EstacionamientoUtil.ERROR_METODO_REGISTRO_FACTURA,e);
 		}
 		
-		return facturaParqueoEntity;
+		return vehiculoParqueoEntity;
 	}
 	
-	public FacturaParqueoEntity existeVehiculoParqueado(PeticionServicioParqueo peticionServicioParqueo){
+	public VehiculoParqueoEntity existeVehiculoParqueado(PeticionServicioParqueo peticionServicioParqueo){
 		
-		return facturaParqueoRepository.findByPlacaVehiculoByEstado(peticionServicioParqueo.getPlacaVehiculo(), EstacionamientoUtil.ESTADO_PENDIENTE);
+		return vehiculoParqueoRepository.findByPlacaVehiculoByEstado(peticionServicioParqueo.getPlacaVehiculo(), EstacionamientoUtil.ESTADO_PENDIENTE);
 	}
 	
 	public ServicioParqueo comprobarDisponibilidadParqueo(PeticionServicioParqueo peticionServicioParqueo) {
@@ -121,56 +121,56 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 		
 	}
 	
-	public FacturaParqueoEntity crearFactura(ServicioParqueo servicioParqueo) throws EstacionamientoException{
+	public VehiculoParqueoEntity crearFactura(ServicioParqueo servicioParqueo) throws EstacionamientoException{
 		
-		FacturaParqueoEntity facturaParqueoEntity = null;
-		FacturaParqueo facturaParqueo = null;
+		VehiculoParqueoEntity vehiculoParqueoEntity = null;
+		VehiculoParqueo vehiculoParqueo = null;
 		PeticionServicioParqueo peticionServicioParqueo = servicioParqueo.getPeticionServicioParqueo();
 		if(null!=peticionServicioParqueo){
 			
 			if(null!=peticionServicioParqueo.getPlacaVehiculo() && null == peticionServicioParqueo.getCilindrajeMoto()){
 				
-				facturaParqueo = new FacturaParqueoCarro(-1, peticionServicioParqueo.getPlacaVehiculo(), Calendar.getInstance(), null, EstacionamientoUtil.ESTADO_PENDIENTE, 0, servicioParqueo);
+				vehiculoParqueo = new VehiculoParqueoCarro(-1, peticionServicioParqueo.getPlacaVehiculo(), Calendar.getInstance(), null, EstacionamientoUtil.ESTADO_PENDIENTE, 0, servicioParqueo);
 			}else if(null!=peticionServicioParqueo.getPlacaVehiculo() && null != peticionServicioParqueo.getCilindrajeMoto()){
 				
-				facturaParqueo = new FacturaParqueoMoto(-1, peticionServicioParqueo.getPlacaVehiculo(), Integer.parseInt(peticionServicioParqueo.getCilindrajeMoto()), Calendar.getInstance(), null, EstacionamientoUtil.ESTADO_PENDIENTE, servicioParqueo);
+				vehiculoParqueo = new VehiculoParqueoMoto(-1, peticionServicioParqueo.getPlacaVehiculo(), Integer.parseInt(peticionServicioParqueo.getCilindrajeMoto()), Calendar.getInstance(), null, EstacionamientoUtil.ESTADO_PENDIENTE, servicioParqueo);
 			}else{
 				throw new EstacionamientoException(EstacionamientoUtil.ERROR_CREANDO_FACTURA);
 			}
 		}
 		
-		if (facturaParqueo != null) {
+		if (vehiculoParqueo != null) {
 			
-			facturaParqueoEntity = new FacturaParqueoEntity(facturaParqueo);
+			vehiculoParqueoEntity = new VehiculoParqueoEntity(vehiculoParqueo);
 		}
-		return facturaParqueoEntity;
+		return vehiculoParqueoEntity;
 	}
 
 	@Override
 	@Transactional
-	public FacturaParqueo registrarSalidaEstacionamiento(long idFactura) throws EstacionamientoException {
+	public VehiculoParqueo registrarSalidaEstacionamiento(long idFactura) throws EstacionamientoException {
 		
-		FacturaParqueo facturaParqueo = null;
-		FacturaParqueoEntity facturaParqueoEntity = facturaParqueoRepository.findById(idFactura);
-		if(null!=facturaParqueoEntity){
+		VehiculoParqueo vehiculoParqueo = null;
+		VehiculoParqueoEntity vehiculoParqueoEntity = vehiculoParqueoRepository.findById(idFactura);
+		if(null!=vehiculoParqueoEntity){
 
-			facturaParqueo = facturaParqueoEntity.getCilindrajeMoto() > 0 ? new FacturaParqueoMoto(facturaParqueoEntity) : new FacturaParqueoCarro(facturaParqueoEntity);
-			facturaParqueo.calcularValorServicioParqueo();
-			facturaParqueoEntity.setFechaSalida(Calendar.getInstance());
-			facturaParqueoEntity.setEstado(EstacionamientoUtil.ESTADO_PAGADO);
-			facturaParqueoEntity.setTiempoServicio(facturaParqueo.getTiempoServicioHoras());
-			facturaParqueoEntity.setValorServicio(facturaParqueo.getValorServicio());
-			facturaParqueoRepository.save(facturaParqueoEntity);
-			servicioParqueoRepository.aumentarCupoDisponible(facturaParqueoEntity.getServicioParqueo().getId());
+			vehiculoParqueo = vehiculoParqueoEntity.getCilindrajeMoto() > 0 ? new VehiculoParqueoMoto(vehiculoParqueoEntity) : new VehiculoParqueoCarro(vehiculoParqueoEntity);
+			vehiculoParqueo.calcularValorServicioParqueo();
+			vehiculoParqueoEntity.setFechaSalida(Calendar.getInstance());
+			vehiculoParqueoEntity.setEstado(EstacionamientoUtil.ESTADO_PAGADO);
+			vehiculoParqueoEntity.setTiempoServicio(vehiculoParqueo.getTiempoServicioHoras());
+			vehiculoParqueoEntity.setValorServicio(vehiculoParqueo.getValorServicio());
+			vehiculoParqueoRepository.save(vehiculoParqueoEntity);
+			servicioParqueoRepository.aumentarCupoDisponible(vehiculoParqueoEntity.getServicioParqueo().getId());
 		}
 		
-		return facturaParqueo;
+		return vehiculoParqueo;
 	}
 
 	@Override
-	public List<FacturaParqueoEntity> consultarFacturas() throws EstacionamientoException {
+	public List<VehiculoParqueoEntity> consultarVehiculos() throws EstacionamientoException {
 		
-		return facturaParqueoRepository.findAll();
+		return vehiculoParqueoRepository.findAll();
 	}
 
 }

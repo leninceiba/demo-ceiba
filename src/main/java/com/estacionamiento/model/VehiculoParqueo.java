@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 import com.estacionamiento.commons.util.EstacionamientoUtil;
 
-public class FacturaParqueo {
+public class VehiculoParqueo {
 
 	private long id;
 	private Calendar fechaEntrada;
@@ -15,11 +15,11 @@ public class FacturaParqueo {
 	private ServicioParqueo servicioParqueo;
 	private String error;
 	
-	public FacturaParqueo() {
+	public VehiculoParqueo() {
 		super();
 	}
 
-	public FacturaParqueo(long id, Calendar fechaEntrada, Calendar fechaSalida, String estado, long valorServicio,
+	public VehiculoParqueo(long id, Calendar fechaEntrada, Calendar fechaSalida, String estado, long valorServicio,
 			ServicioParqueo servicioParqueo) {
 		super();
 		this.id = id;
@@ -110,10 +110,7 @@ public class FacturaParqueo {
 		
 		if (EstacionamientoUtil.RANGO_COBRO_POR_HORAS <= tiempoServicio.getHoras()) {
 			
-			tiempoServicio.setDias(tiempoServicio.getDias() + 1);
-			tiempoServicio.setHoras(0);
-			valorPorHoras = tiempoServicio.getHoras() * this.getServicioParqueo().getTarifaHora();
-			valorPorDias = tiempoServicio.getDias() * this.getServicioParqueo().getTarifaHora();
+			valorPorHoras = EstacionamientoUtil.COBRAR_UN_DIA * this.getServicioParqueo().getTarifaDia();
 		}
 		
 		return valorPorHoras + valorPorDias;

@@ -32,6 +32,7 @@ public final class EstacionamientoUtil {
 	public static final int RANGO_CILINDRAJE_APLICA_RECARGO = 500;
 	public static final int RECARGO_CILINDRAJES_MAYORES_A_500 = 2000;
 	public static final int DIA_EN_HORAS = 24;
+	public static final int COBRAR_UN_DIA = 1;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(EstacionamientoServiceImpl.class);
 	

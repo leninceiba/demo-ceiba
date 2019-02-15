@@ -10,13 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.estacionamiento.model.FacturaParqueo;
-import com.estacionamiento.model.FacturaParqueoCarro;
-import com.estacionamiento.model.FacturaParqueoMoto;
+import com.estacionamiento.model.VehiculoParqueo;
+import com.estacionamiento.model.VehiculoParqueoCarro;
+import com.estacionamiento.model.VehiculoParqueoMoto;
 
 @Entity
-@Table(name="factura_parqueo")
-public class FacturaParqueoEntity implements Serializable{
+@Table(name="vehiculo_parqueo")
+public class VehiculoParqueoEntity implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -33,29 +33,29 @@ public class FacturaParqueoEntity implements Serializable{
     private ServicioParqueoEntity servicioParqueo;
     private String error;
     
-	public FacturaParqueoEntity() {
+	public VehiculoParqueoEntity() {
 		
 	}
 
-	public FacturaParqueoEntity(FacturaParqueo facturaParqueo) {
+	public VehiculoParqueoEntity(VehiculoParqueo vehiculoParqueo) {
 		super();
-		this.fechaEntrada = facturaParqueo.getFechaEntrada();
-		this.fechaSalida = facturaParqueo.getFechaSalida();
-		this.estado = facturaParqueo.getEstado();
-		this.valorServicio = facturaParqueo.getValorServicio();
-		this.tiempoServicio = facturaParqueo.getTiempoServicioHoras();
+		this.fechaEntrada = vehiculoParqueo.getFechaEntrada();
+		this.fechaSalida = vehiculoParqueo.getFechaSalida();
+		this.estado = vehiculoParqueo.getEstado();
+		this.valorServicio = vehiculoParqueo.getValorServicio();
+		this.tiempoServicio = vehiculoParqueo.getTiempoServicioHoras();
 		
-		if(facturaParqueo instanceof FacturaParqueoCarro){
-			FacturaParqueoCarro facturaParqueoCarro = (FacturaParqueoCarro)facturaParqueo;
-			this.placaVehiculo = facturaParqueoCarro.getPlaca();
+		if(vehiculoParqueo instanceof VehiculoParqueoCarro){
+			VehiculoParqueoCarro vehiculoParqueoCarro = (VehiculoParqueoCarro)vehiculoParqueo;
+			this.placaVehiculo = vehiculoParqueoCarro.getPlaca();
 		}
 		
-		if(facturaParqueo instanceof FacturaParqueoMoto){
-			FacturaParqueoMoto facturaParqueoMoto = (FacturaParqueoMoto)facturaParqueo;
-			this.placaVehiculo = facturaParqueoMoto.getPlaca();
-			this.cilindrajeMoto = facturaParqueoMoto.getCilindraje();
+		if(vehiculoParqueo instanceof VehiculoParqueoMoto){
+			VehiculoParqueoMoto vehiculoParqueoMoto = (VehiculoParqueoMoto)vehiculoParqueo;
+			this.placaVehiculo = vehiculoParqueoMoto.getPlaca();
+			this.cilindrajeMoto = vehiculoParqueoMoto.getCilindraje();
 		}
-		this.servicioParqueo = new ServicioParqueoEntity(facturaParqueo.getServicioParqueo());
+		this.servicioParqueo = new ServicioParqueoEntity(vehiculoParqueo.getServicioParqueo());
 	}
 
 	public long getId() {

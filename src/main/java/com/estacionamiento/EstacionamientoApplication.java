@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.estacionamiento.entity.ServicioParqueoEntity;
-import com.estacionamiento.repository.FacturaParqueoRepository;
+import com.estacionamiento.repository.VehiculoParqueoRepository;
 import com.estacionamiento.repository.ServicioParqueoRepository;
 
 @SpringBootApplication
@@ -17,7 +17,7 @@ public class EstacionamientoApplication {
 	}	
 
 	@Bean
-	public CommandLineRunner initServiciosParqueadero(ServicioParqueoRepository servicioParqueoRepository, FacturaParqueoRepository facturaParqueoRepository) {
+	public CommandLineRunner initServiciosParqueadero(ServicioParqueoRepository servicioParqueoRepository, VehiculoParqueoRepository vehiculoParqueoRepository) {
 		return args -> {
 			ServicioParqueoEntity servicioParqueoCarro = servicioParqueoRepository.findByCodigo(1);
 			ServicioParqueoEntity servicioParqueoMoto = servicioParqueoRepository.findByCodigo(2);

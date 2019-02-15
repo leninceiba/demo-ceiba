@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import com.estacionamiento.entity.FacturaParqueoEntity;
+import com.estacionamiento.entity.VehiculoParqueoEntity;
 import com.estacionamiento.exception.EstacionamientoException;
-import com.estacionamiento.model.FacturaParqueo;
+import com.estacionamiento.model.VehiculoParqueo;
 import com.estacionamiento.model.PeticionServicioParqueo;
 import com.estacionamiento.service.IEstacionamientoService;
 
@@ -32,21 +32,21 @@ public class EstacionamientoController {
 	}
 	
 	@PostMapping("/registroEntrada")	
-	public FacturaParqueoEntity registrarEntradaEstacionamiento(@RequestBody PeticionServicioParqueo peticionServicioParqueo) throws EstacionamientoException{
+	public VehiculoParqueoEntity registrarEntradaEstacionamiento(@RequestBody PeticionServicioParqueo peticionServicioParqueo) throws EstacionamientoException{
 		
 		return this.estacionamientoService.registrarEntradaEstacionamiento(peticionServicioParqueo);
 	}
 	
 	@GetMapping("/registroSalida/{idFactura}")	
-	public FacturaParqueo registrarSalidaEstacionamiento(@PathVariable long idFactura) throws EstacionamientoException{
+	public VehiculoParqueo registrarSalidaEstacionamiento(@PathVariable long idFactura) throws EstacionamientoException{
 		
 		return this.estacionamientoService.registrarSalidaEstacionamiento(idFactura);		
 	}
 	
-	@GetMapping("/consultaFacturas")
-	public List<FacturaParqueoEntity> consultarFacturas() throws EstacionamientoException{
+	@GetMapping("/consultaVehiculos")
+	public List<VehiculoParqueoEntity> consultarVehiculos() throws EstacionamientoException{
 		
-		return this.estacionamientoService.consultarFacturas();
+		return this.estacionamientoService.consultarVehiculos();
 	}
 	
 }

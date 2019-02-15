@@ -2,18 +2,18 @@ package com.estacionamiento.service;
 
 import java.util.List;
 
-import com.estacionamiento.entity.FacturaParqueoEntity;
+import com.estacionamiento.entity.VehiculoParqueoEntity;
 import com.estacionamiento.exception.EstacionamientoException;
-import com.estacionamiento.model.FacturaParqueo;
+import com.estacionamiento.model.VehiculoParqueo;
 import com.estacionamiento.model.PeticionServicioParqueo;
 
 public interface IEstacionamientoService {
 	
-	public FacturaParqueoEntity registrarEntradaEstacionamiento(PeticionServicioParqueo peticionServicioParqueo) throws EstacionamientoException;
+	public VehiculoParqueoEntity registrarEntradaEstacionamiento(PeticionServicioParqueo peticionServicioParqueo) throws EstacionamientoException;
 	
-	public FacturaParqueo registrarSalidaEstacionamiento(long idFactura) throws EstacionamientoException;
+	public VehiculoParqueo registrarSalidaEstacionamiento(long idFactura) throws EstacionamientoException;
 	
-	public List<FacturaParqueoEntity> consultarFacturas() throws EstacionamientoException;
+	public List<VehiculoParqueoEntity> consultarVehiculos() throws EstacionamientoException;
 		
 
 }

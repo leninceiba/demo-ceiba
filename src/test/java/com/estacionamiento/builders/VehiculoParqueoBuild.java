@@ -3,11 +3,11 @@ package com.estacionamiento.builders;
 import java.util.Calendar;
 
 import com.estacionamiento.commons.util.EstacionamientoUtil;
-import com.estacionamiento.model.FacturaParqueoCarro;
-import com.estacionamiento.model.FacturaParqueoMoto;
+import com.estacionamiento.model.VehiculoParqueoCarro;
+import com.estacionamiento.model.VehiculoParqueoMoto;
 import com.estacionamiento.model.ServicioParqueo;
 
-public class FacturaParqueoBuild {
+public class VehiculoParqueoBuild {
 
 	private long id;
 	private Calendar fechaEntrada;
@@ -19,7 +19,7 @@ public class FacturaParqueoBuild {
 	private String placaVehiculo;
 	private int cilindrajeMoto;
 	
-	public FacturaParqueoBuild() {
+	public VehiculoParqueoBuild() {
 		this.fechaEntrada = EstacionamientoUtil.FECHA_ENTRADA;
 		this.fechaSalida = EstacionamientoUtil.FECHA_SALIDA;
 		this.estado = EstacionamientoUtil.ESTADO_PENDIENTE;
@@ -27,51 +27,51 @@ public class FacturaParqueoBuild {
 		this.servicioParqueo = new ServicioParqueoBuild().withCodigo(1).withDescripcion("carro").withCupoMaximo(20).withTarifaHora(1000).withTarifaDia(8000).build();
 	}
 
-	public FacturaParqueoBuild withId(long id) {
+	public VehiculoParqueoBuild withId(long id) {
 		this.id = id;
 		return this;
 	}
 
-	public FacturaParqueoBuild withFechaEntrada(Calendar fechaEntrada) {
+	public VehiculoParqueoBuild withFechaEntrada(Calendar fechaEntrada) {
 		this.fechaEntrada = fechaEntrada;
 		return this;
 	}
 
-	public FacturaParqueoBuild withFechaSalida(Calendar fechaSalida) {
+	public VehiculoParqueoBuild withFechaSalida(Calendar fechaSalida) {
 		this.fechaSalida = fechaSalida;
 		return this;
 	}
 
-	public FacturaParqueoBuild withEstado(String estado) {
+	public VehiculoParqueoBuild withEstado(String estado) {
 		this.estado = estado;
 		return this;
 	}
 
-	public FacturaParqueoBuild withServicioParqueo(ServicioParqueo servicioParqueo) {
+	public VehiculoParqueoBuild withServicioParqueo(ServicioParqueo servicioParqueo) {
 		this.servicioParqueo = servicioParqueo;
 		return this;
 	}
 
-	public FacturaParqueoBuild withPlacaVehiculo(String placaVehiculo) {
+	public VehiculoParqueoBuild withPlacaVehiculo(String placaVehiculo) {
 		this.placaVehiculo = placaVehiculo;
 		return this;
 	}	
 	
-	public FacturaParqueoBuild withCilindrajeMoto(int cilindrajeMoto){
+	public VehiculoParqueoBuild withCilindrajeMoto(int cilindrajeMoto){
 		this.cilindrajeMoto = cilindrajeMoto;
 		return this;
 	}
 	
-	public FacturaParqueoCarro buildFacturaParqueoCarro(){
-		return new FacturaParqueoCarro(id, placaVehiculo, fechaEntrada, fechaSalida, estado, valorServicio, servicioParqueo);
+	public VehiculoParqueoCarro buildVehiculoParqueoCarro(){
+		return new VehiculoParqueoCarro(id, placaVehiculo, fechaEntrada, fechaSalida, estado, valorServicio, servicioParqueo);
 	}
 	
-	public FacturaParqueoMoto buildFacturaParqueoMoto(){
-		return new FacturaParqueoMoto(id, placaVehiculo, cilindrajeMoto, fechaEntrada, fechaSalida, estado, servicioParqueo);
+	public VehiculoParqueoMoto buildVehiculoParqueoMoto(){
+		return new VehiculoParqueoMoto(id, placaVehiculo, cilindrajeMoto, fechaEntrada, fechaSalida, estado, servicioParqueo);
 	}
 	
-	public static FacturaParqueoBuild aFacturaParqueoBuild(){
-		return new FacturaParqueoBuild();		
+	public static VehiculoParqueoBuild aVehiculoParqueoBuild(){
+		return new VehiculoParqueoBuild();		
 	}
 	
 }

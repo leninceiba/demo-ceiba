@@ -16,17 +16,17 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.estacionamiento.builders.FacturaParqueoBuild;
+import com.estacionamiento.builders.VehiculoParqueoBuild;
 import com.estacionamiento.builders.ServicioParqueoBuild;
 import com.estacionamiento.commons.util.EstacionamientoUtil;
 import com.estacionamiento.controller.EstacionamientoController;
-import com.estacionamiento.entity.FacturaParqueoEntity;
+import com.estacionamiento.entity.VehiculoParqueoEntity;
 import com.estacionamiento.entity.ServicioParqueoEntity;
 import com.estacionamiento.exception.EstacionamientoException;
-import com.estacionamiento.model.FacturaParqueo;
+import com.estacionamiento.model.VehiculoParqueo;
 import com.estacionamiento.model.PeticionServicioParqueo;
 import com.estacionamiento.model.ServicioParqueo;
-import com.estacionamiento.repository.FacturaParqueoRepository;
+import com.estacionamiento.repository.VehiculoParqueoRepository;
 import com.estacionamiento.repository.ServicioParqueoRepository;
 import com.estacionamiento.service.impl.EstacionamientoServiceImpl;
 
@@ -37,7 +37,7 @@ public class EstacionamientoServiceTestInt {
 	ServicioParqueoRepository servicioParqueoRepository;
 	
 	@Mock
-	FacturaParqueoRepository facturaParqueoRepository;
+	VehiculoParqueoRepository vehiculoParqueoRepository;
 	
 	@InjectMocks
 	EstacionamientoServiceImpl estacionamientoServiceImpl;
@@ -48,19 +48,19 @@ public class EstacionamientoServiceTestInt {
 	@InjectMocks
 	EstacionamientoUtil estacionamientoUtil;
 	
-	private FacturaParqueoEntity facturaParqueoEntityCarro;
+	private VehiculoParqueoEntity vehiculoParqueoEntityCarro;
 	private ServicioParqueoEntity servicioParqueoEntityCarro;
 	private ServicioParqueo servicioParqueoCarro;
-	private FacturaParqueoEntity facturaParqueoEntityMoto;
+	private VehiculoParqueoEntity vehiculoParqueoEntityMoto;
 	private ServicioParqueoEntity servicioParqueoEntityMoto;
 	private ServicioParqueo servicioParqueoMoto;
-	private List<FacturaParqueoEntity> listaFacturaParqueoEntity;
+	private List<VehiculoParqueoEntity> listaVehiculoParqueoEntity;
 	
 	@Before
 	public void setupEntity(){
 
 		MockitoAnnotations.initMocks(this);
-		listaFacturaParqueoEntity = new ArrayList<FacturaParqueoEntity>();
+		listaVehiculoParqueoEntity = new ArrayList<VehiculoParqueoEntity>();
 		servicioParqueoCarro = new ServicioParqueoBuild()
 				.withCodigo(1)
 				.withCupoMaximo(20)
@@ -71,14 +71,14 @@ public class EstacionamientoServiceTestInt {
 				.build();
 		servicioParqueoEntityCarro = new ServicioParqueoEntity(servicioParqueoCarro);	
 		
-		FacturaParqueo facturaParqueoCreadaCarro = new FacturaParqueoBuild()
+		VehiculoParqueo vehiculoParqueoCreadaCarro = new VehiculoParqueoBuild()
 				.withEstado(EstacionamientoUtil.ESTADO_PENDIENTE)
 				.withFechaEntrada(EstacionamientoUtil.FECHA_ENTRADA)
 				.withPlacaVehiculo(EstacionamientoUtil.PLACA_PRUEBA)
-				.withServicioParqueo(servicioParqueoCarro).buildFacturaParqueoCarro();
+				.withServicioParqueo(servicioParqueoCarro).buildVehiculoParqueoCarro();
 		
-		facturaParqueoEntityCarro = new FacturaParqueoEntity(facturaParqueoCreadaCarro);
-		listaFacturaParqueoEntity.add(facturaParqueoEntityCarro);
+		vehiculoParqueoEntityCarro = new VehiculoParqueoEntity(vehiculoParqueoCreadaCarro);
+		listaVehiculoParqueoEntity.add(vehiculoParqueoEntityCarro);
 		
 		servicioParqueoMoto = new ServicioParqueoBuild()
 				.withCodigo(2)
@@ -90,56 +90,56 @@ public class EstacionamientoServiceTestInt {
 				.build();
 		servicioParqueoEntityMoto = new ServicioParqueoEntity(servicioParqueoMoto);	
 		
-		FacturaParqueo facturaParqueoCreadaMoto = new FacturaParqueoBuild()
+		VehiculoParqueo vehiculoParqueoCreadaMoto = new VehiculoParqueoBuild()
 				.withEstado(EstacionamientoUtil.ESTADO_PENDIENTE)
 				.withFechaEntrada(EstacionamientoUtil.FECHA_ENTRADA)
 				.withPlacaVehiculo(EstacionamientoUtil.PLACA_PRUEBA)
-				.withServicioParqueo(servicioParqueoMoto).buildFacturaParqueoMoto();
+				.withServicioParqueo(servicioParqueoMoto).buildVehiculoParqueoMoto();
 		
-		facturaParqueoEntityMoto = new FacturaParqueoEntity(facturaParqueoCreadaMoto);		
-		listaFacturaParqueoEntity.add(facturaParqueoEntityMoto);
+		vehiculoParqueoEntityMoto = new VehiculoParqueoEntity(vehiculoParqueoCreadaMoto);		
+		listaVehiculoParqueoEntity.add(vehiculoParqueoEntityMoto);
 	}
 	
 	@Test
-	public void comprobarSiRegistraFacturaEntradaCarro() throws EstacionamientoException{
+	public void comprobarSiRegistraVehiculoEntradaCarro() throws EstacionamientoException{
 		
 		//Arrange
 		
-		FacturaParqueoEntity facturaParqueoEntityRespuesta = null;
+		VehiculoParqueoEntity vehiculoParqueoEntityRespuesta = null;
 		PeticionServicioParqueo peticionServicioParqueo = new PeticionServicioParqueo();
 		peticionServicioParqueo.setPlacaVehiculo(EstacionamientoUtil.PLACA_PRUEBA);
 		peticionServicioParqueo.setTipoVehiculo(1);
 		
 		//Action
 		
-		when(facturaParqueoRepository.findByPlacaVehiculoByEstado(Mockito.anyString(), Mockito.anyString())).thenReturn(facturaParqueoEntityCarro);
+		when(vehiculoParqueoRepository.findByPlacaVehiculoByEstado(Mockito.anyString(), Mockito.anyString())).thenReturn(vehiculoParqueoEntityCarro);
 		when(servicioParqueoRepository.findByCodigo(Mockito.anyInt())).thenReturn(servicioParqueoEntityCarro);
-		facturaParqueoEntityRespuesta = estacionamientoServiceImpl.registrarEntradaEstacionamiento(peticionServicioParqueo);
+		vehiculoParqueoEntityRespuesta = estacionamientoServiceImpl.registrarEntradaEstacionamiento(peticionServicioParqueo);
 		
 		//Assert
 		
-		Assert.assertTrue(Objects.nonNull(facturaParqueoEntityRespuesta));
+		Assert.assertTrue(Objects.nonNull(vehiculoParqueoEntityRespuesta));
 	}
 	
 	@Test
-	public void comprobarSiRegistraFacturaEntradaMoto() throws EstacionamientoException{
+	public void comprobarSiRegistraVehiculoEntradaMoto() throws EstacionamientoException{
 		
 		//Arrange
 		
-		FacturaParqueoEntity facturaParqueoEntityRespuesta = null;
+		VehiculoParqueoEntity vehiculoParqueoEntityRespuesta = null;
 		PeticionServicioParqueo peticionServicioParqueo = new PeticionServicioParqueo();
 		peticionServicioParqueo.setPlacaVehiculo(EstacionamientoUtil.PLACA_PRUEBA);
 		peticionServicioParqueo.setTipoVehiculo(2);
 		
 		//Action
 		
-		when(facturaParqueoRepository.findByPlacaVehiculoByEstado(Mockito.anyString(), Mockito.anyString())).thenReturn(facturaParqueoEntityCarro);
-		when(servicioParqueoRepository.findByCodigo(Mockito.anyInt())).thenReturn(servicioParqueoEntityCarro);
-		facturaParqueoEntityRespuesta = estacionamientoServiceImpl.registrarEntradaEstacionamiento(peticionServicioParqueo);
+		when(vehiculoParqueoRepository.findByPlacaVehiculoByEstado(Mockito.anyString(), Mockito.anyString())).thenReturn(vehiculoParqueoEntityMoto);
+		when(servicioParqueoRepository.findByCodigo(Mockito.anyInt())).thenReturn(servicioParqueoEntityMoto);
+		vehiculoParqueoEntityRespuesta = estacionamientoServiceImpl.registrarEntradaEstacionamiento(peticionServicioParqueo);
 		
 		//Assert
 		
-		Assert.assertTrue(Objects.nonNull(facturaParqueoEntityRespuesta));
+		Assert.assertTrue(Objects.nonNull(vehiculoParqueoEntityRespuesta));
 	}
 	
 	@Test
@@ -147,18 +147,15 @@ public class EstacionamientoServiceTestInt {
 		
 		//Arrange
 		
-		List<FacturaParqueoEntity> listaFacturaParqueo = null;
-		PeticionServicioParqueo peticionServicioParqueo = new PeticionServicioParqueo();
-		peticionServicioParqueo.setPlacaVehiculo(EstacionamientoUtil.PLACA_PRUEBA);
-		peticionServicioParqueo.setTipoVehiculo(2);
+		List<VehiculoParqueoEntity> listaVehiculoParqueo = null;
 		
 		//Action
 		
-		when(facturaParqueoRepository.findAll()).thenReturn(listaFacturaParqueoEntity);
-		listaFacturaParqueo = estacionamientoServiceImpl.consultarFacturas();
+		when(vehiculoParqueoRepository.findAll()).thenReturn(listaVehiculoParqueoEntity);
+		listaVehiculoParqueo = estacionamientoServiceImpl.consultarVehiculos();
 		
 		//Assert
 		
-		Assert.assertNotNull(listaFacturaParqueo);
+		Assert.assertNotNull(listaVehiculoParqueo);
 	}
 }

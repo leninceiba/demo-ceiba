@@ -3,29 +3,29 @@ package com.estacionamiento.model;
 import java.util.Calendar;
 
 import com.estacionamiento.commons.util.EstacionamientoUtil;
-import com.estacionamiento.entity.FacturaParqueoEntity;
+import com.estacionamiento.entity.VehiculoParqueoEntity;
 
-public class FacturaParqueoMoto extends FacturaParqueo {
+public class VehiculoParqueoMoto extends VehiculoParqueo {
 	
 	private String placa;
 	private int cilindraje;	
 	
 	
-	public FacturaParqueoMoto() {
+	public VehiculoParqueoMoto() {
 		super();
 	}
     
-	public FacturaParqueoMoto(long id, String placaMoto, int cilindrajeMoto, Calendar fechaEntrada, Calendar fechaSalida, String estado, ServicioParqueo servicio) {
+	public VehiculoParqueoMoto(long id, String placaMoto, int cilindrajeMoto, Calendar fechaEntrada, Calendar fechaSalida, String estado, ServicioParqueo servicio) {
     	
     	 super(id,fechaEntrada,fechaSalida,estado,0,servicio);
     	 this.placa = placaMoto;
     	 this.cilindraje = cilindrajeMoto;
     }
 	
-	public FacturaParqueoMoto(FacturaParqueoEntity facturaParqueoEntity) {    	
-    	 super(facturaParqueoEntity.getId(), facturaParqueoEntity.getFechaEntrada(), facturaParqueoEntity.getFechaSalida(), facturaParqueoEntity.getEstado(), facturaParqueoEntity.getValorServicio(), new ServicioParqueo(facturaParqueoEntity.getServicioParqueo()));
-    	 this.placa = facturaParqueoEntity.getPlacaVehiculo();
-    	 this.cilindraje = facturaParqueoEntity.getCilindrajeMoto();
+	public VehiculoParqueoMoto(VehiculoParqueoEntity vehiculoParqueoEntity) {    	
+    	 super(vehiculoParqueoEntity.getId(), vehiculoParqueoEntity.getFechaEntrada(), vehiculoParqueoEntity.getFechaSalida(), vehiculoParqueoEntity.getEstado(), vehiculoParqueoEntity.getValorServicio(), new ServicioParqueo(vehiculoParqueoEntity.getServicioParqueo()));
+    	 this.placa = vehiculoParqueoEntity.getPlacaVehiculo();
+    	 this.cilindraje = vehiculoParqueoEntity.getCilindrajeMoto();
     }
 
 	public String getPlaca() {

@@ -12,16 +12,16 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.mockito.Mockito.when;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.estacionamiento.builders.FacturaParqueoBuild;
+import com.estacionamiento.builders.VehiculoParqueoBuild;
 import com.estacionamiento.builders.ServicioParqueoBuild;
 import com.estacionamiento.commons.util.EstacionamientoUtil;
 import com.estacionamiento.controller.EstacionamientoController;
-import com.estacionamiento.entity.FacturaParqueoEntity;
+import com.estacionamiento.entity.VehiculoParqueoEntity;
 import com.estacionamiento.entity.ServicioParqueoEntity;
-import com.estacionamiento.model.FacturaParqueo;
+import com.estacionamiento.model.VehiculoParqueo;
 import com.estacionamiento.model.PeticionServicioParqueo;
 import com.estacionamiento.model.ServicioParqueo;
-import com.estacionamiento.repository.FacturaParqueoRepository;
+import com.estacionamiento.repository.VehiculoParqueoRepository;
 import com.estacionamiento.repository.ServicioParqueoRepository;
 import com.estacionamiento.service.impl.EstacionamientoServiceImpl;
 
@@ -33,7 +33,7 @@ public class EstacionamientoServiceTest {
 	ServicioParqueoRepository servicioParqueoRepository;
 	
 	@MockBean
-	FacturaParqueoRepository facturaParqueoRepository;
+	VehiculoParqueoRepository vehiculoParqueoRepository;
 	
 	@Autowired
 	EstacionamientoServiceImpl estacionamientoServiceImpl;
@@ -46,19 +46,19 @@ public class EstacionamientoServiceTest {
 		
 		//Arrange
 		
-		FacturaParqueoEntity facturaParqueoExiste = null;
+		VehiculoParqueoEntity facturaParqueoExiste = null;
 		ServicioParqueo servicioParqueo = new ServicioParqueoBuild().withCodigo(1).build();
 		PeticionServicioParqueo peticionServicioParqueo = new PeticionServicioParqueo(EstacionamientoUtil.PLACA_PRUEBA, null, 1, Calendar.getInstance());
-		FacturaParqueo facturaParqueo = new FacturaParqueoBuild()
+		VehiculoParqueo vehiculoParqueo = new VehiculoParqueoBuild()
 				.withEstado(EstacionamientoUtil.ESTADO_PENDIENTE)
 				.withPlacaVehiculo(EstacionamientoUtil.PLACA_PRUEBA)
 				.withFechaEntrada(peticionServicioParqueo.getFecha())
 				.withServicioParqueo(servicioParqueo)
-				.withFechaSalida(null).buildFacturaParqueoCarro();
+				.withFechaSalida(null).buildVehiculoParqueoCarro();
 		
 		//Action
 		
-		when(facturaParqueoRepository.findByPlacaVehiculoByEstado(peticionServicioParqueo.getPlacaVehiculo(),EstacionamientoUtil.ESTADO_PENDIENTE)).thenReturn(new FacturaParqueoEntity(facturaParqueo));
+		when(vehiculoParqueoRepository.findByPlacaVehiculoByEstado(peticionServicioParqueo.getPlacaVehiculo(),EstacionamientoUtil.ESTADO_PENDIENTE)).thenReturn(new VehiculoParqueoEntity(vehiculoParqueo));
 		facturaParqueoExiste = estacionamientoServiceImpl.existeVehiculoParqueado(peticionServicioParqueo);
 		
 		//Assert
