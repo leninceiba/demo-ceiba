@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.estacionamiento.commons.util.EstacionamientoUtil;
 import com.estacionamiento.entity.FacturaParqueoEntity;
+import com.estacionamiento.entity.ServicioParqueoEntity;
 import com.estacionamiento.exception.EstacionamientoException;
 import com.estacionamiento.model.FacturaParqueo;
 import com.estacionamiento.model.FacturaParqueoCarro;
@@ -78,7 +79,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 			if(null != peticionServicioParqueo && peticionServicioParqueo.getTipoVehiculo()>0){
 					
 				servicioParqueo = this.comprobarCupoDisponible(peticionServicioParqueo.getTipoVehiculo());
-				if(null==servicioParqueo.getError()){
+				if(null!=servicioParqueo && null==servicioParqueo.getError()){
 					
 					this.validarRestriccionPlacaVehiculo(peticionServicioParqueo);
 				}
@@ -95,7 +96,14 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 	
 	public ServicioParqueo comprobarCupoDisponible(int codigo) throws EstacionamientoException{
 		
-		ServicioParqueo servicioParqueo = new ServicioParqueo(servicioParqueoRepository.findByCodigo(codigo));
+		ServicioParqueo servicioParqueo = null;
+		ServicioParqueoEntity servicioParqueoEntity = servicioParqueoRepository.findByCodigo(codigo);
+		if(null==servicioParqueoEntity){
+			
+			throw new EstacionamientoException("No se encontraron datos en la tabla ServicioParqueo.");
+		}
+			
+		servicioParqueo = new ServicioParqueo(servicioParqueoEntity);
 		if(servicioParqueo.getCupoDisponible() == 0){
 			
 			servicioParqueo.setError(EstacionamientoUtil.SIN_CUPO);
@@ -141,12 +149,19 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 	@Override
 	@Transactional
 	public FacturaParqueo registrarSalidaEstacionamiento(long idFactura) throws EstacionamientoException {
+		
 		FacturaParqueo facturaParqueo = null;
 		FacturaParqueoEntity facturaParqueoEntity = facturaParqueoRepository.findById(idFactura);
 		if(null!=facturaParqueoEntity){
-			
-			facturaParqueo = facturaParqueoEntity.getCilindrajeMoto() > 0 ? new FacturaParqueoMoto() : new FacturaParqueoCarro();
+
+			facturaParqueo = facturaParqueoEntity.getCilindrajeMoto() > 0 ? new FacturaParqueoMoto(facturaParqueoEntity) : new FacturaParqueoCarro(facturaParqueoEntity);
 			facturaParqueo.calcularValorServicioParqueo();
+			facturaParqueoEntity.setFechaSalida(Calendar.getInstance());
+			facturaParqueoEntity.setEstado(EstacionamientoUtil.ESTADO_PAGADO);
+			facturaParqueoEntity.setTiempoServicio(facturaParqueo.getTiempoServicioHoras());
+			facturaParqueoEntity.setValorServicio(facturaParqueo.getValorServicio());
+			facturaParqueoRepository.save(facturaParqueoEntity);
+			servicioParqueoRepository.aumentarCupoDisponible(facturaParqueoEntity.getServicioParqueo().getId());
 		}
 		
 		return facturaParqueo;
@@ -155,7 +170,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 	@Override
 	public List<FacturaParqueoEntity> consultarFacturas() throws EstacionamientoException {
 		
-		return facturaParqueoRepository.findAllOrderByFechaEntradaDesc();
+		return facturaParqueoRepository.findAll();
 	}
 
 }
