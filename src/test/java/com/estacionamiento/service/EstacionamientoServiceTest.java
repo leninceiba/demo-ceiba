@@ -260,5 +260,21 @@ public class EstacionamientoServiceTest {
 		
 		Assert.assertNotNull(vehiculoParqueoEntityRespuesta);
 	}
+	
+	@Test
+	public void comprobarConsultarVehiculos() throws EstacionamientoException{
+		
+		//Arrange
+		
+		List<VehiculoParqueoEntity> listaVehiculoParqueo = null;
+		
+		//Action
+		
+		listaVehiculoParqueo = estacionamientoController.consultarVehiculos();
+		
+		//Assert
+		
+		Assert.assertNotNull(listaVehiculoParqueo);
+	}
 
 }
