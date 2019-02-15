@@ -3,6 +3,11 @@ package com.estacionamiento.commons.util;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.estacionamiento.model.TiempoServicio;
+import com.estacionamiento.service.impl.EstacionamientoServiceImpl;
 
 public final class EstacionamientoUtil {
 	
@@ -18,9 +23,17 @@ public final class EstacionamientoUtil {
 	public static final String PLACA_PRUEBA = "DNP142";
 	public static final String PLACA_EMPIEZA_CON_A = "ANP142";
 	public static final Calendar FECHA_ENTRADA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","12-03-2019 10:00:00");
-	public static final Calendar FECHA_SALIDA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","18-03-2019 13:10:00");		
+	public static final Calendar FECHA_SALIDA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","18-03-2019 13:10:00");
+	public static final int UN_SEGUNDO_EN_MILISEGUNDOS = 1000;
+	public static final int UNA_HORA_EN_SEGUNDOS = 3600;
+	public static final int UNA_HORA_EN_MILISEGUNDOS = 3600000;
+	public static final int UN_MINUTO_EN_MILISEGUNDOS = 60000;
+	public static final int RANGO_COBRO_POR_HORAS = 9;
+	public static final int RANGO_CILINDRAJE_APLICA_RECARGO = 500;
+	public static final int RECARGO_CILINDRAJES_MAYORES_A_500 = 2000;
+	public static final int DIA_EN_HORAS = 24;
 	
-
+	private static final Logger LOGGER = LoggerFactory.getLogger(EstacionamientoServiceImpl.class);
 	
 	private EstacionamientoUtil() {
 		super();
@@ -58,9 +71,20 @@ public final class EstacionamientoUtil {
 			date = sdf.parse(fecha);
 			
 		} catch (Exception e) {
+			
+			LOGGER.error("Error en el método getFechaCalendar: ",e);
 		}
 		fechaCalendar.setTime(date);
 		
 		return fechaCalendar;
+	}
+	
+	public static TiempoServicio calcularTiempoServicio(Calendar fechaEntrada, Calendar fechaSalida) {
+		
+		long totalHorasServicio = ((fechaSalida.getTimeInMillis() - fechaEntrada.getTimeInMillis())/UN_SEGUNDO_EN_MILISEGUNDOS)/UNA_HORA_EN_SEGUNDOS;
+		long diasServicio = totalHorasServicio/24;
+		long horasServicio = totalHorasServicio % 24;
+		
+		return new TiempoServicio(horasServicio, diasServicio);
 	}	
 }
