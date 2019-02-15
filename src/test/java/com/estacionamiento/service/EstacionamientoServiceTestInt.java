@@ -2,6 +2,8 @@ package com.estacionamiento.service;
 
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import org.junit.Assert;
@@ -49,13 +51,16 @@ public class EstacionamientoServiceTestInt {
 	private FacturaParqueoEntity facturaParqueoEntityCarro;
 	private ServicioParqueoEntity servicioParqueoEntityCarro;
 	private ServicioParqueo servicioParqueoCarro;
+	private FacturaParqueoEntity facturaParqueoEntityMoto;
 	private ServicioParqueoEntity servicioParqueoEntityMoto;
 	private ServicioParqueo servicioParqueoMoto;
+	private List<FacturaParqueoEntity> listaFacturaParqueoEntity;
 	
 	@Before
 	public void setupEntity(){
 
 		MockitoAnnotations.initMocks(this);
+		listaFacturaParqueoEntity = new ArrayList<FacturaParqueoEntity>();
 		servicioParqueoCarro = new ServicioParqueoBuild()
 				.withCodigo(1)
 				.withCupoMaximo(20)
@@ -65,6 +70,15 @@ public class EstacionamientoServiceTestInt {
 				.withTarifaDia(8000)
 				.build();
 		servicioParqueoEntityCarro = new ServicioParqueoEntity(servicioParqueoCarro);	
+		
+		FacturaParqueo facturaParqueoCreadaCarro = new FacturaParqueoBuild()
+				.withEstado(EstacionamientoUtil.ESTADO_PENDIENTE)
+				.withFechaEntrada(EstacionamientoUtil.FECHA_ENTRADA)
+				.withPlacaVehiculo(EstacionamientoUtil.PLACA_PRUEBA)
+				.withServicioParqueo(servicioParqueoCarro).buildFacturaParqueoCarro();
+		
+		facturaParqueoEntityCarro = new FacturaParqueoEntity(facturaParqueoCreadaCarro);
+		listaFacturaParqueoEntity.add(facturaParqueoEntityCarro);
 		
 		servicioParqueoMoto = new ServicioParqueoBuild()
 				.withCodigo(2)
@@ -76,13 +90,14 @@ public class EstacionamientoServiceTestInt {
 				.build();
 		servicioParqueoEntityMoto = new ServicioParqueoEntity(servicioParqueoMoto);	
 		
-		FacturaParqueo facturaParqueoCreadaCarro = new FacturaParqueoBuild()
+		FacturaParqueo facturaParqueoCreadaMoto = new FacturaParqueoBuild()
 				.withEstado(EstacionamientoUtil.ESTADO_PENDIENTE)
 				.withFechaEntrada(EstacionamientoUtil.FECHA_ENTRADA)
 				.withPlacaVehiculo(EstacionamientoUtil.PLACA_PRUEBA)
-				.withServicioParqueo(servicioParqueoCarro).buildFacturaParqueoCarro();
+				.withServicioParqueo(servicioParqueoMoto).buildFacturaParqueoMoto();
 		
-		facturaParqueoEntityCarro = new FacturaParqueoEntity(facturaParqueoCreadaCarro);
+		facturaParqueoEntityMoto = new FacturaParqueoEntity(facturaParqueoCreadaMoto);		
+		listaFacturaParqueoEntity.add(facturaParqueoEntityMoto);
 	}
 	
 	@Test
@@ -104,5 +119,46 @@ public class EstacionamientoServiceTestInt {
 		//Assert
 		
 		Assert.assertTrue(Objects.nonNull(facturaParqueoEntityRespuesta));
+	}
+	
+	@Test
+	public void comprobarSiRegistraFacturaEntradaMoto() throws EstacionamientoException{
+		
+		//Arrange
+		
+		FacturaParqueoEntity facturaParqueoEntityRespuesta = null;
+		PeticionServicioParqueo peticionServicioParqueo = new PeticionServicioParqueo();
+		peticionServicioParqueo.setPlacaVehiculo(EstacionamientoUtil.PLACA_PRUEBA);
+		peticionServicioParqueo.setTipoVehiculo(2);
+		
+		//Action
+		
+		when(facturaParqueoRepository.findByPlacaVehiculoByEstado(Mockito.anyString(), Mockito.anyString())).thenReturn(facturaParqueoEntityCarro);
+		when(servicioParqueoRepository.findByCodigo(Mockito.anyInt())).thenReturn(servicioParqueoEntityCarro);
+		facturaParqueoEntityRespuesta = estacionamientoServiceImpl.registrarEntradaEstacionamiento(peticionServicioParqueo);
+		
+		//Assert
+		
+		Assert.assertTrue(Objects.nonNull(facturaParqueoEntityRespuesta));
+	}
+	
+	@Test
+	public void comprobarConsultarVehiculos() throws EstacionamientoException{
+		
+		//Arrange
+		
+		List<FacturaParqueoEntity> listaFacturaParqueo = null;
+		PeticionServicioParqueo peticionServicioParqueo = new PeticionServicioParqueo();
+		peticionServicioParqueo.setPlacaVehiculo(EstacionamientoUtil.PLACA_PRUEBA);
+		peticionServicioParqueo.setTipoVehiculo(2);
+		
+		//Action
+		
+		when(facturaParqueoRepository.findAll()).thenReturn(listaFacturaParqueoEntity);
+		listaFacturaParqueo = estacionamientoServiceImpl.consultarFacturas();
+		
+		//Assert
+		
+		Assert.assertNotNull(listaFacturaParqueo);
 	}
 }
