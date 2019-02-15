@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.mockito.Mockito.when;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -28,10 +27,10 @@ import com.estacionamiento.service.impl.EstacionamientoServiceImpl;
 @SpringBootTest
 public class EstacionamientoServiceTest {
 	
-	@MockBean
+	@Autowired
 	ServicioParqueoRepository servicioParqueoRepository;
 	
-	@MockBean
+	@Autowired
 	FacturaParqueoRepository facturaParqueoRepository;
 	
 	@Autowired
@@ -71,7 +70,7 @@ public class EstacionamientoServiceTest {
 		//Arrange
 		
 		ServicioParqueo servicioParqueoEncontrado = null;
-		PeticionServicioParqueo peticionServicioParqueo = new PeticionServicioParqueo("DNP142", null, 1, Calendar.getInstance());
+		PeticionServicioParqueo peticionServicioParqueo = new PeticionServicioParqueo(EstacionamientoUtil.PLACA_PRUEBA, null, 1, Calendar.getInstance());
 		ServicioParqueo servicioParqueo = new ServicioParqueoBuild().withCodigo(1).build();
 		
 		//Action
@@ -90,7 +89,7 @@ public class EstacionamientoServiceTest {
 		//Arrange
 		
 		ServicioParqueo servicioParqueoEncontrado = null;
-		PeticionServicioParqueo peticionServicioParqueo = new PeticionServicioParqueo("DNP142", null, 1, Calendar.getInstance());
+		PeticionServicioParqueo peticionServicioParqueo = new PeticionServicioParqueo(EstacionamientoUtil.PLACA_PRUEBA, null, 1, Calendar.getInstance());
 		ServicioParqueo servicioParqueo = new ServicioParqueoBuild().withCodigo(1).withCupoDisponible(0).build();
 		
 		//Action
