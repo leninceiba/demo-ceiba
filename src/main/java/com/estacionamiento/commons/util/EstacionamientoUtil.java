@@ -72,8 +72,8 @@ public final class EstacionamientoUtil {
 	public static TiempoServicio calcularTiempoServicio(Calendar fechaEntrada, Calendar fechaSalida) {
 		
 		long totalHorasServicio = ((fechaSalida.getTimeInMillis() - fechaEntrada.getTimeInMillis())/UN_SEGUNDO_EN_MILISEGUNDOS)/UNA_HORA_EN_SEGUNDOS;
-		long diasServicio = totalHorasServicio/24;
-		long horasServicio = totalHorasServicio % 24;
+		long diasServicio = totalHorasServicio/DIA_EN_HORAS;
+		long horasServicio = totalHorasServicio % DIA_EN_HORAS;
 		
 		return new TiempoServicio(horasServicio, diasServicio);
 	}	
