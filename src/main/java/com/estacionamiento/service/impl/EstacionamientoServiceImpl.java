@@ -82,9 +82,9 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 				if(null!=servicioParqueo && null==servicioParqueo.getError()){
 					
 					this.validarRestriccionPlacaVehiculo(peticionServicioParqueo);
+					
+					servicioParqueo.setPeticionServicioParqueo(peticionServicioParqueo);
 				}
-				
-				servicioParqueo.setPeticionServicioParqueo(peticionServicioParqueo);
 			}
 		}catch(EstacionamientoException e){
 			
@@ -111,7 +111,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 		return servicioParqueo;
 	}
 	
-	private void validarRestriccionPlacaVehiculo(PeticionServicioParqueo peticionServicioParqueo) throws EstacionamientoException{
+	public void validarRestriccionPlacaVehiculo(PeticionServicioParqueo peticionServicioParqueo) throws EstacionamientoException{
 		
 		if(EstacionamientoUtil.placaVehiculoIniciaPorA(peticionServicioParqueo.getPlacaVehiculo()) 
 				&& !EstacionamientoUtil.esDomingoOLunes(peticionServicioParqueo.getFecha())){
