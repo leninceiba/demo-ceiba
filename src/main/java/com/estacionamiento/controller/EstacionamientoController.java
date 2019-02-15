@@ -25,12 +25,6 @@ public class EstacionamientoController {
 	@Autowired
 	IEstacionamientoService estacionamientoService;	
 	
-	@GetMapping("/")
-	public String bienvenida(){
-		
-		return ("<div style=\"text-align : center\">::::+> Bienvenido a tu Estacionamiento Preferido <+::::</div>");
-	}
-	
 	@PostMapping("/registroEntrada")	
 	public VehiculoParqueoEntity registrarEntradaEstacionamiento(@RequestBody PeticionServicioParqueo peticionServicioParqueo) throws EstacionamientoException{
 		
