@@ -154,7 +154,6 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 		FacturaParqueoEntity facturaParqueoEntity = facturaParqueoRepository.findById(idFactura);
 		if(null!=facturaParqueoEntity){
 
-			System.out.println("Esto es una prueba");
 			facturaParqueo = facturaParqueoEntity.getCilindrajeMoto() > 0 ? new FacturaParqueoMoto(facturaParqueoEntity) : new FacturaParqueoCarro(facturaParqueoEntity);
 			facturaParqueo.calcularValorServicioParqueo();
 			facturaParqueoEntity.setFechaSalida(Calendar.getInstance());
