@@ -11,7 +11,6 @@ import com.estacionamiento.service.impl.EstacionamientoServiceImpl;
 
 public final class EstacionamientoUtil {
 	
-	private static EstacionamientoUtil estacionamientoUtil; 
 	public static final String SIN_CUPO = "No hay cupos disponibles.";
 	public static final String EXISTE_VEHICULO = "Ya existe un vehículo parqueado con esa placa.";
 	public static final String PLACA_NO_AUTORIZADA = "Las placas que inician por la letra A solo pueden entrar al estacionamiento los días domingos y lunes.";
@@ -22,8 +21,8 @@ public final class EstacionamientoUtil {
 	public static final String ERROR_METODO_COMPROBAR_DISPONIBILIDAD = "Error en el método comprobarDisponibilidadParqueo: ";
 	public static final String PLACA_PRUEBA = "DNP142";
 	public static final String PLACA_EMPIEZA_CON_A = "ANP142";
-	public static final Calendar FECHA_ENTRADA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","12-03-2019 10:00:00");
-	public static final Calendar FECHA_SALIDA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","18-03-2019 13:10:00");
+	public static final Calendar FECHA_ENTRADA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","12-03-2019 12:00:00");
+	public static final Calendar FECHA_SALIDA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","13-03-2019 15:00:00");
 	public static final int UN_SEGUNDO_EN_MILISEGUNDOS = 1000;
 	public static final int UNA_HORA_EN_SEGUNDOS = 3600;
 	public static final int UNA_HORA_EN_MILISEGUNDOS = 3600000;
@@ -38,16 +37,6 @@ public final class EstacionamientoUtil {
 	
 	private EstacionamientoUtil() {
 		super();
-	}
-
-	public static EstacionamientoUtil getInstance(){
-		
-		if(estacionamientoUtil == null){
-			
-			estacionamientoUtil = new EstacionamientoUtil();
-		}
-		
-		return estacionamientoUtil;
 	}
 
 	public static boolean esDomingoOLunes(Calendar fechaHoy) {

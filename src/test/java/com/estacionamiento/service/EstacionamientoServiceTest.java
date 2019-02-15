@@ -21,6 +21,7 @@ import com.estacionamiento.entity.ServicioParqueoEntity;
 import com.estacionamiento.model.VehiculoParqueo;
 import com.estacionamiento.model.PeticionServicioParqueo;
 import com.estacionamiento.model.ServicioParqueo;
+import com.estacionamiento.model.TiempoServicio;
 import com.estacionamiento.repository.VehiculoParqueoRepository;
 import com.estacionamiento.repository.ServicioParqueoRepository;
 import com.estacionamiento.service.impl.EstacionamientoServiceImpl;
@@ -121,6 +122,43 @@ public class EstacionamientoServiceTest {
 		//Assert
 		
 		Assert.assertEquals(EstacionamientoUtil.PLACA_NO_AUTORIZADA, servicioParqueoEncontrado.getError());
+	}
+	
+	@Test
+	public void comprobarFormatoFechaCalendar(){
+		
+		//Arrange
+		
+		String formato = "dd-M-yyyy HH:mm:ss";
+		String fecha = "12-03-2019 12:00:00";
+		Calendar fechaFormateada;
+		
+		//Action
+		
+		fechaFormateada = EstacionamientoUtil.getFechaCalendar(formato, fecha);
+		
+		//Assert
+		
+		Assert.assertNotNull(fechaFormateada);
+	}
+	
+	@Test
+	public void comprobarCalculoTiempoServicio(){
+		
+		//Arrange
+		
+		Calendar fechaEntrada = EstacionamientoUtil.FECHA_ENTRADA;
+		Calendar fechaSalida = EstacionamientoUtil.FECHA_SALIDA;
+		TiempoServicio tiempoServicioCalculado = null;
+		
+		//Action
+		
+		tiempoServicioCalculado = EstacionamientoUtil.calcularTiempoServicio(fechaEntrada, fechaSalida);
+		
+		//Assert
+		
+		Assert.assertEquals(1,tiempoServicioCalculado.getDias());
+		Assert.assertEquals(3,tiempoServicioCalculado.getHoras());
 	}
 
 }
