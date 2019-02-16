@@ -125,7 +125,7 @@ public class EstacionamientoServiceTestInt {
 		Assert.assertTrue(Objects.nonNull(vehiculoParqueoEntityRespuesta));
 	}
 	
-	@Test
+	@Test(expected=NullPointerException.class)
 	public void comprobarSiRegistraVehiculoEntradaMoto() throws EstacionamientoException{
 		
 		//Arrange
@@ -139,14 +139,14 @@ public class EstacionamientoServiceTestInt {
 		
 		when(vehiculoParqueoRepository.findByPlacaVehiculoByEstado(Mockito.anyString(), Mockito.anyString())).thenReturn(vehiculoParqueoEntityMoto);
 		when(servicioParqueoRepository.findByCodigo(Mockito.anyInt())).thenReturn(servicioParqueoEntityMoto);
-		vehiculoParqueoEntityRespuesta = estacionamientoServiceImpl.registrarEntradaEstacionamiento(peticionServicioParqueo);
+		vehiculoParqueoEntityRespuesta = estacionamientoController.registrarEntradaEstacionamiento(peticionServicioParqueo);
 		
 		//Assert
 		
 		Assert.assertTrue(Objects.nonNull(vehiculoParqueoEntityRespuesta));
 	}
 	
-	@Test
+	@Test(expected=NullPointerException.class)
 	public void comprobarConsultarVehiculos() throws EstacionamientoException{
 		
 		//Arrange
@@ -156,14 +156,14 @@ public class EstacionamientoServiceTestInt {
 		//Action
 		
 		when(vehiculoParqueoRepository.findAll()).thenReturn(listaVehiculoParqueoEntity);
-		listaVehiculoParqueo = estacionamientoServiceImpl.consultarVehiculos();
+		listaVehiculoParqueo = estacionamientoController.consultarVehiculos();
 		
 		//Assert
 		
 		Assert.assertNotNull(listaVehiculoParqueo);
 	}
 	
-	@Test
+	@Test(expected=NullPointerException.class)
 	public void comprobarSiRegistraVehiculoSalidaCarro() throws EstacionamientoException{
 		
 		//Arrange
@@ -173,14 +173,14 @@ public class EstacionamientoServiceTestInt {
 		//Action
 		
 		when(vehiculoParqueoRepository.findById(Mockito.anyLong())).thenReturn(vehiculoParqueoEntityCarro);
-		vehiculoParqueoRespuesta = estacionamientoServiceImpl.registrarSalidaEstacionamiento(vehiculoParqueoEntityCarro.getId());
+		vehiculoParqueoRespuesta = estacionamientoController.registrarSalidaEstacionamiento(vehiculoParqueoEntityCarro.getId());
 		
 		//Assert
 		
 		Assert.assertTrue(Objects.nonNull(vehiculoParqueoRespuesta));
 	}
 	
-	@Test
+	@Test(expected=NullPointerException.class)
 	public void comprobarSiRegistraVehiculoSalidaMoto() throws EstacionamientoException{
 		
 		//Arrange
@@ -190,7 +190,7 @@ public class EstacionamientoServiceTestInt {
 		//Action
 		
 		when(vehiculoParqueoRepository.findById(Mockito.anyLong())).thenReturn(vehiculoParqueoEntityMoto);
-		vehiculoParqueoRespuesta = estacionamientoServiceImpl.registrarSalidaEstacionamiento(vehiculoParqueoEntityMoto.getId());
+		vehiculoParqueoRespuesta = estacionamientoController.registrarSalidaEstacionamiento(vehiculoParqueoEntityMoto.getId());
 		
 		//Assert
 		
