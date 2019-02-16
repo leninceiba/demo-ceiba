@@ -1,9 +1,12 @@
 package com.estacionamiento.model;
 
+import java.io.Serializable;
+
 import com.estacionamiento.entity.ServicioParqueoEntity;
 
-public class ServicioParqueo {
+public class ServicioParqueo implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private int codigo;
 	private String descripcion;
