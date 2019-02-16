@@ -47,7 +47,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 				servicioParqueo = this.comprobarDisponibilidadParqueo(peticionServicioParqueo);
 				if(null==servicioParqueo.getError()){
 					
-					vehiculoParqueoEntity = this.crearFactura(servicioParqueo);
+					vehiculoParqueoEntity = this.crearVehiculoParqueo(servicioParqueo);
 					vehiculoParqueoRepository.save(vehiculoParqueoEntity);
 					servicioParqueoRepository.descontarCupoDisponible(servicioParqueo.getId());
 				}else{
@@ -121,7 +121,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 		
 	}
 	
-	public VehiculoParqueoEntity crearFactura(ServicioParqueo servicioParqueo) throws EstacionamientoException{
+	public VehiculoParqueoEntity crearVehiculoParqueo(ServicioParqueo servicioParqueo) throws EstacionamientoException{
 		
 		VehiculoParqueoEntity vehiculoParqueoEntity = null;
 		VehiculoParqueo vehiculoParqueo = null;
@@ -135,6 +135,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 				
 				vehiculoParqueo = new VehiculoParqueoMoto(-1, peticionServicioParqueo.getPlacaVehiculo(), Integer.parseInt(peticionServicioParqueo.getCilindrajeMoto()), Calendar.getInstance(), null, EstacionamientoUtil.ESTADO_PENDIENTE, servicioParqueo);
 			}else{
+				
 				throw new EstacionamientoException(EstacionamientoUtil.ERROR_CREANDO_FACTURA);
 			}
 		}
@@ -143,6 +144,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 			
 			vehiculoParqueoEntity = new VehiculoParqueoEntity(vehiculoParqueo);
 		}
+		
 		return vehiculoParqueoEntity;
 	}
 
