@@ -220,5 +220,45 @@ public class EstacionamientoServiceTest {
 		
 		Assert.assertNotNull(listaVehiculoParqueo);
 	}
+	
+	@Test
+	public void comprobarCreacionVehiculoParqueoCarro() throws EstacionamientoException{
+		
+		//Arrange
+		
+		VehiculoParqueoEntity vehiculoParqueoEntity = null;
+		PeticionServicioParqueo peticionServicioParqueoCarro = new PeticionServicioParqueo(EstacionamientoUtil.PLACA_PRUEBA, null, 1, Calendar.getInstance());
+		ServicioParqueo servicioParqueo = new ServicioParqueoBuild()
+				.withCodigo(1)
+				.withPeticionServicioParqueo(peticionServicioParqueoCarro).build();
+		
+		//Action
+		
+		vehiculoParqueoEntity = estacionamientoServiceImpl.crearVehiculoParqueo(servicioParqueo);
+		
+		//Assert
+		
+		Assert.assertNotNull(vehiculoParqueoEntity);
+	}
+	
+	@Test
+	public void comprobarCreacionVehiculoParqueoMoto() throws EstacionamientoException{
+		
+		//Arrange
+		
+		VehiculoParqueoEntity vehiculoParqueoEntity = null;
+		PeticionServicioParqueo peticionServicioParqueoMoto = new PeticionServicioParqueo(EstacionamientoUtil.PLACA_PRUEBA, String.valueOf(EstacionamientoUtil.RANGO_CILINDRAJE_APLICA_RECARGO), 2, Calendar.getInstance());
+		ServicioParqueo servicioParqueo = new ServicioParqueoBuild()
+				.withCodigo(2)
+				.withPeticionServicioParqueo(peticionServicioParqueoMoto).build();
+		
+		//Action
+		
+		vehiculoParqueoEntity = estacionamientoServiceImpl.crearVehiculoParqueo(servicioParqueo);
+		
+		//Assert
+		
+		Assert.assertNotNull(vehiculoParqueoEntity);
+	}
 
 }
