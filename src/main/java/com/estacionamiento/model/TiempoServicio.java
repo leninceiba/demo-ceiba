@@ -5,6 +5,12 @@ public class TiempoServicio {
 	private long dias;
 	private long horas;
 	
+	
+	
+	public TiempoServicio() {
+		super();
+	}
+
 	public TiempoServicio(long horas,long dias) {
 		this.horas = horas;
 		this.dias = dias;
