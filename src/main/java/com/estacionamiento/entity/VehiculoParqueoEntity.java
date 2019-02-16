@@ -30,7 +30,7 @@ public class VehiculoParqueoEntity implements Serializable{
     private String placaVehiculo;
     private int cilindrajeMoto;   
     @ManyToOne(fetch = FetchType.EAGER)    
-    private ServicioParqueoEntity servicioParqueo;
+    private ServicioParqueoEntity servicioParqueoEntity;
     private String error;
     
 	public VehiculoParqueoEntity() {
@@ -55,7 +55,7 @@ public class VehiculoParqueoEntity implements Serializable{
 			this.placaVehiculo = vehiculoParqueoMoto.getPlaca();
 			this.cilindrajeMoto = vehiculoParqueoMoto.getCilindraje();
 		}
-		this.servicioParqueo = new ServicioParqueoEntity(vehiculoParqueo.getServicioParqueo());
+		this.servicioParqueoEntity = new ServicioParqueoEntity(vehiculoParqueo.getServicioParqueo());
 	}
 
 	public long getId() {
@@ -122,12 +122,12 @@ public class VehiculoParqueoEntity implements Serializable{
 		this.cilindrajeMoto = cilindrajeMoto;
 	}
 
-	public ServicioParqueoEntity getServicioParqueo() {
-		return servicioParqueo;
+	public ServicioParqueoEntity getServicioParqueoEntity() {
+		return servicioParqueoEntity;
 	}
 
-	public void setServicioParqueo(ServicioParqueoEntity servicioParqueo) {
-		this.servicioParqueo = servicioParqueo;
+	public void setServicioParqueoEntity(ServicioParqueoEntity servicioParqueoEntity) {
+		this.servicioParqueoEntity = servicioParqueoEntity;
 	}
 
 	public String getError() {
