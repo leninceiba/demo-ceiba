@@ -6,7 +6,8 @@ import com.estacionamiento.commons.util.EstacionamientoUtil;
 import com.estacionamiento.entity.VehiculoParqueoEntity;
 
 public class VehiculoParqueoMoto extends VehiculoParqueo {
-	
+
+	private static final long serialVersionUID = 1L;
 	private String placa;
 	private int cilindraje;	
 	
@@ -23,7 +24,7 @@ public class VehiculoParqueoMoto extends VehiculoParqueo {
     }
 	
 	public VehiculoParqueoMoto(VehiculoParqueoEntity vehiculoParqueoEntity) {    	
-    	 super(vehiculoParqueoEntity.getId(), vehiculoParqueoEntity.getFechaEntrada(), vehiculoParqueoEntity.getFechaSalida(), vehiculoParqueoEntity.getEstado(), vehiculoParqueoEntity.getValorServicio(), new ServicioParqueo(vehiculoParqueoEntity.getServicioParqueo()));
+    	 super(vehiculoParqueoEntity.getId(), vehiculoParqueoEntity.getFechaEntrada(), vehiculoParqueoEntity.getFechaSalida(), vehiculoParqueoEntity.getEstado(), vehiculoParqueoEntity.getValorServicio(), new ServicioParqueo(vehiculoParqueoEntity.getServicioParqueoEntity()));
     	 this.placa = vehiculoParqueoEntity.getPlacaVehiculo();
     	 this.cilindraje = vehiculoParqueoEntity.getCilindrajeMoto();
     }
