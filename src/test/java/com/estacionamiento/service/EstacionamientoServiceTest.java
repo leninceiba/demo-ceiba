@@ -199,10 +199,12 @@ public class EstacionamientoServiceTest {
 		VehiculoParqueoEntity vehiculoParqueoEntityRespuesta = null;
 		PeticionServicioParqueo peticionServicioParqueo = new PeticionServicioParqueo();
 		peticionServicioParqueo.setPlacaVehiculo(EstacionamientoUtil.PLACA_PRUEBA);
-		peticionServicioParqueo.setTipoVehiculo(2);
+		peticionServicioParqueo.setTipoVehiculo(1);
+		ServicioParqueo servicioParqueo = new ServicioParqueoBuild().withCodigo(1).withCupoDisponible(20).build();
 		
 		//Action
 		
+		when(servicioParqueoRepository.findByCodigo(servicioParqueo.getCodigo())).thenReturn(new ServicioParqueoEntity(servicioParqueo));
 		vehiculoParqueoEntityRespuesta = estacionamientoController.registrarEntradaEstacionamiento(peticionServicioParqueo);
 		
 		//Assert
@@ -458,6 +460,24 @@ public class EstacionamientoServiceTest {
 		//Assert
 		
 		Assert.assertNotNull(servicioParqueoEntity);
+	}
+	
+	@Test
+	public void comprobarRecargoCilindraje(){
+		
+		//Arrange
+		
+		VehiculoParqueoMoto vehiculoParqueoMoto = new VehiculoParqueoMoto();
+		
+		//Action
+
+		vehiculoParqueoMoto.setCilindraje(EstacionamientoUtil.RANGO_CILINDRAJE_APLICA_RECARGO);
+		vehiculoParqueoMoto.setValorServicio(18000);
+		vehiculoParqueoMoto.aplicarRecargoPorCilindraje();
+		
+		//Assert	
+		
+		Assert.assertEquals(18000,vehiculoParqueoMoto.getValorServicio());
 	}
 
 }
