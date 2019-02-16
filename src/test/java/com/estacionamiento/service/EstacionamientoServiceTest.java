@@ -306,6 +306,34 @@ public class EstacionamientoServiceTest {
 	}
 	
 	@Test
+	public void comprobarSeteosVehiculoParqueoEntity(){
+		
+		//Arrange
+		
+		VehiculoParqueoEntity vehiculoParqueoEntity = null;
+		ServicioParqueo servicioParqueo = new ServicioParqueoBuild().build();
+		ServicioParqueoEntity servicioParqueoEntity = new ServicioParqueoEntity(servicioParqueo);
+		
+		//Action
+		
+		vehiculoParqueoEntity = new VehiculoParqueoEntity();
+		vehiculoParqueoEntity.setId(18);
+		vehiculoParqueoEntity.setFechaEntrada(EstacionamientoUtil.FECHA_ENTRADA);
+		vehiculoParqueoEntity.setEstado(EstacionamientoUtil.ESTADO_PENDIENTE);
+		vehiculoParqueoEntity.setValorServicio(18000);
+		vehiculoParqueoEntity.setTiempoServicio(18);
+		vehiculoParqueoEntity.setPlacaVehiculo(EstacionamientoUtil.PLACA_PRUEBA);
+		vehiculoParqueoEntity.setCilindrajeMoto(EstacionamientoUtil.RANGO_CILINDRAJE_APLICA_RECARGO);
+		vehiculoParqueoEntity.setError("comprobacion en test");
+		vehiculoParqueoEntity.setServicioParqueo(servicioParqueoEntity);
+		
+		//Assert
+		
+		Assert.assertNotNull(vehiculoParqueoEntity);
+		Assert.assertEquals("comprobacion en test",vehiculoParqueoEntity.getError());
+	}
+	
+	@Test
 	public void comprobarCalculoValorTotalAPagar(){
 		
 		//Arrange
@@ -323,6 +351,52 @@ public class EstacionamientoServiceTest {
 		//Assert
 		
 		Assert.assertNotNull(valorTotalAPagar);
+	}
+	
+	@Test
+	public void comprobarSeteosServicioParqueo(){
+		
+		//Arrange
+		
+		ServicioParqueo servicioParqueo = null;
+		
+		//Action
+		
+		servicioParqueo = new ServicioParqueo();
+		servicioParqueo.setId(18);
+		servicioParqueo.setCodigo(1);
+		servicioParqueo.setDescripcion("carro");
+		servicioParqueo.setCupoMaximo(20);
+		servicioParqueo.setCupoDisponible(20);
+		servicioParqueo.setTarifaDia(8000);
+		servicioParqueo.setTarifaHora(1000);
+		
+		//Assert
+		
+		Assert.assertNotNull(servicioParqueo);
+	}
+	
+	@Test
+	public void comprobarSeteosServicioParqueoEntity(){
+		
+		//Arrange
+		
+		ServicioParqueoEntity servicioParqueoEntity = null;
+		
+		//Action
+		
+		servicioParqueoEntity = new ServicioParqueoEntity();
+		servicioParqueoEntity.setId(18);
+		servicioParqueoEntity.setCodigo(1);
+		servicioParqueoEntity.setDescripcion("carro");
+		servicioParqueoEntity.setCupoMaximo(20);
+		servicioParqueoEntity.setCupoDisponible(20);
+		servicioParqueoEntity.setTarifaDia(8000);
+		servicioParqueoEntity.setTarifaHora(1000);
+		
+		//Assert
+		
+		Assert.assertNotNull(servicioParqueoEntity);
 	}
 
 }
