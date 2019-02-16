@@ -47,63 +47,12 @@ public class EstacionamientoServiceTest {
 	@Autowired
 	EstacionamientoController estacionamientoController;	
 	
-	private VehiculoParqueoEntity vehiculoParqueoEntityCarro;
-	private ServicioParqueoEntity servicioParqueoEntityCarro;
-	private ServicioParqueo servicioParqueoCarro;
-	private VehiculoParqueoEntity vehiculoParqueoEntityMoto;
-	private ServicioParqueoEntity servicioParqueoEntityMoto;
-	private ServicioParqueo servicioParqueoMoto;
-	private List<VehiculoParqueoEntity> listaVehiculoParqueoEntity;	
-	
-	@Before
-	public void setupEntity(){
-
-		listaVehiculoParqueoEntity = new ArrayList<VehiculoParqueoEntity>();
-		servicioParqueoCarro = new ServicioParqueoBuild()
-				.withCodigo(1)
-				.withCupoMaximo(20)
-				.withCupoDisponible(20)
-				.withDescripcion("carro")
-				.withTarifaHora(1000)
-				.withTarifaDia(8000)
-				.build();
-		servicioParqueoEntityCarro = new ServicioParqueoEntity(servicioParqueoCarro);	
-		
-		VehiculoParqueo vehiculoParqueoCreadaCarro = new VehiculoParqueoBuild()
-				.withEstado(EstacionamientoUtil.ESTADO_PENDIENTE)
-				.withFechaEntrada(EstacionamientoUtil.FECHA_ENTRADA)
-				.withPlacaVehiculo(EstacionamientoUtil.PLACA_PRUEBA)
-				.withServicioParqueo(servicioParqueoCarro).buildVehiculoParqueoCarro();
-		
-		vehiculoParqueoEntityCarro = new VehiculoParqueoEntity(vehiculoParqueoCreadaCarro);
-		listaVehiculoParqueoEntity.add(vehiculoParqueoEntityCarro);
-		
-		servicioParqueoMoto = new ServicioParqueoBuild()
-				.withCodigo(2)
-				.withCupoMaximo(10)
-				.withCupoDisponible(10)
-				.withDescripcion("moto")
-				.withTarifaHora(500)
-				.withTarifaDia(4000)
-				.build();
-		servicioParqueoEntityMoto = new ServicioParqueoEntity(servicioParqueoMoto);	
-		
-		VehiculoParqueo vehiculoParqueoCreadaMoto = new VehiculoParqueoBuild()
-				.withEstado(EstacionamientoUtil.ESTADO_PENDIENTE)
-				.withFechaEntrada(EstacionamientoUtil.FECHA_ENTRADA)
-				.withPlacaVehiculo(EstacionamientoUtil.PLACA_PRUEBA)
-				.withServicioParqueo(servicioParqueoMoto).buildVehiculoParqueoMoto();
-		
-		vehiculoParqueoEntityMoto = new VehiculoParqueoEntity(vehiculoParqueoCreadaMoto);		
-		listaVehiculoParqueoEntity.add(vehiculoParqueoEntityMoto);
-	}	
-	
 	@Test
 	public void comprobarSiExisteVehiculoParqueado(){
 		
 		//Arrange
 		
-		VehiculoParqueoEntity facturaParqueoExiste = null;
+		VehiculoParqueoEntity vehiculoParqueoExiste = null;
 		ServicioParqueo servicioParqueo = new ServicioParqueoBuild().withCodigo(1).build();
 		PeticionServicioParqueo peticionServicioParqueo = new PeticionServicioParqueo(EstacionamientoUtil.PLACA_PRUEBA, null, 1, Calendar.getInstance());
 		VehiculoParqueo vehiculoParqueo = new VehiculoParqueoBuild()
@@ -116,11 +65,11 @@ public class EstacionamientoServiceTest {
 		//Action
 		
 		when(vehiculoParqueoRepository.findByPlacaVehiculoByEstado(peticionServicioParqueo.getPlacaVehiculo(),EstacionamientoUtil.ESTADO_PENDIENTE)).thenReturn(new VehiculoParqueoEntity(vehiculoParqueo));
-		facturaParqueoExiste = estacionamientoServiceImpl.existeVehiculoParqueado(peticionServicioParqueo);
+		vehiculoParqueoExiste = estacionamientoServiceImpl.existeVehiculoParqueado(peticionServicioParqueo);
 		
 		//Assert
 		
-		Assert.assertNotNull(facturaParqueoExiste);		
+		Assert.assertNotNull(vehiculoParqueoExiste);		
 	}
 	
 	@Test
