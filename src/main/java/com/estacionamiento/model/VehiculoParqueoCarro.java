@@ -6,6 +6,7 @@ import com.estacionamiento.entity.VehiculoParqueoEntity;
 
 public class VehiculoParqueoCarro extends VehiculoParqueo{
 	
+	private static final long serialVersionUID = 1L;
 	private String placa;
 
 	public VehiculoParqueoCarro() {
@@ -19,7 +20,7 @@ public class VehiculoParqueoCarro extends VehiculoParqueo{
 	}
 
 	public VehiculoParqueoCarro(VehiculoParqueoEntity vehiculoParqueoEntity) {
-		super(vehiculoParqueoEntity.getId(), vehiculoParqueoEntity.getFechaEntrada(), vehiculoParqueoEntity.getFechaSalida(), vehiculoParqueoEntity.getEstado(), vehiculoParqueoEntity.getValorServicio(), new ServicioParqueo(vehiculoParqueoEntity.getServicioParqueo()));
+		super(vehiculoParqueoEntity.getId(), vehiculoParqueoEntity.getFechaEntrada(), vehiculoParqueoEntity.getFechaSalida(), vehiculoParqueoEntity.getEstado(), vehiculoParqueoEntity.getValorServicio(), new ServicioParqueo(vehiculoParqueoEntity.getServicioParqueoEntity()));
 		this.placa = vehiculoParqueoEntity.getPlacaVehiculo();
 	}
 
