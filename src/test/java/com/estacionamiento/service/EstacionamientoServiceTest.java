@@ -362,12 +362,13 @@ public class EstacionamientoServiceTest {
 		vehiculoParqueoEntity.setPlacaVehiculo(EstacionamientoUtil.PLACA_PRUEBA);
 		vehiculoParqueoEntity.setCilindrajeMoto(EstacionamientoUtil.RANGO_CILINDRAJE_APLICA_RECARGO);
 		vehiculoParqueoEntity.setError("comprobacion en test");
-		vehiculoParqueoEntity.setServicioParqueo(servicioParqueoEntity);
+		vehiculoParqueoEntity.setServicioParqueoEntity(servicioParqueoEntity);
 		
 		//Assert
 		
 		Assert.assertNotNull(vehiculoParqueoEntity);
 		Assert.assertEquals("comprobacion en test",vehiculoParqueoEntity.getError());
+		Assert.assertEquals(18,vehiculoParqueoEntity.getTiempoServicio());
 	}
 	
 	@Test
