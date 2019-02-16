@@ -260,5 +260,49 @@ public class EstacionamientoServiceTest {
 		
 		Assert.assertNotNull(vehiculoParqueoEntity);
 	}
+	
+	@Test
+	public void comprobarSeteosTiempoServicio(){
+		
+		//Arrange
+		
+		TiempoServicio tiempoServicio = null;
+		
+		//Action
+		
+		tiempoServicio = new TiempoServicio();
+		tiempoServicio.setDias(18);
+		tiempoServicio.setHoras(18);
+		
+		//Assert
+		
+		Assert.assertNotNull(tiempoServicio);
+	}
+	
+	@Test
+	public void comprobarSeteosVehiculoParqueo(){
+		
+		//Arrange
+		
+		VehiculoParqueo vehiculoParqueo = null;
+		ServicioParqueo servicioParqueo = new ServicioParqueoBuild().build();
+		
+		//Action
+		
+		vehiculoParqueo = new VehiculoParqueo();
+		vehiculoParqueo.setId(18);
+		vehiculoParqueo.setFechaEntrada(EstacionamientoUtil.FECHA_ENTRADA);
+		vehiculoParqueo.setEstado(EstacionamientoUtil.ESTADO_PENDIENTE);
+		vehiculoParqueo.setValorServicio(18000);
+		vehiculoParqueo.setTiempoServicioHoras(18);
+		vehiculoParqueo.setError("comprobacion en test");
+		vehiculoParqueo.setServicioParqueo(servicioParqueo);
+		
+		//Assert
+		
+		Assert.assertNotNull(vehiculoParqueo);
+		Assert.assertEquals(18,vehiculoParqueo.getId());
+		Assert.assertEquals("comprobacion en test",vehiculoParqueo.getError());
+	}
 
 }
