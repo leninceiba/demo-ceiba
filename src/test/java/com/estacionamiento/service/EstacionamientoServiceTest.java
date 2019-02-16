@@ -19,6 +19,8 @@ import com.estacionamiento.entity.VehiculoParqueoEntity;
 import com.estacionamiento.exception.EstacionamientoException;
 import com.estacionamiento.entity.ServicioParqueoEntity;
 import com.estacionamiento.model.VehiculoParqueo;
+import com.estacionamiento.model.VehiculoParqueoCarro;
+import com.estacionamiento.model.VehiculoParqueoMoto;
 import com.estacionamiento.model.PeticionServicioParqueo;
 import com.estacionamiento.model.ServicioParqueo;
 import com.estacionamiento.model.TiempoServicio;
@@ -306,6 +308,41 @@ public class EstacionamientoServiceTest {
 	}
 	
 	@Test
+	public void comprobarSeteosVehiculoParqueoCarro(){
+		
+		//Arrange
+		
+		VehiculoParqueoCarro vehiculoParqueoCarro = null;
+		
+		//Action
+		
+		vehiculoParqueoCarro = new VehiculoParqueoCarro();
+		vehiculoParqueoCarro.setPlaca(EstacionamientoUtil.PLACA_PRUEBA);
+		
+		//Assert
+		
+		Assert.assertNotNull(vehiculoParqueoCarro);
+	}
+	
+	@Test
+	public void comprobarSeteosVehiculoParqueoMoto(){
+		
+		//Arrange
+		
+		VehiculoParqueoMoto vehiculoParqueoMoto = null;
+		
+		//Action
+		
+		vehiculoParqueoMoto = new VehiculoParqueoMoto();
+		vehiculoParqueoMoto.setPlaca(EstacionamientoUtil.PLACA_PRUEBA);
+		vehiculoParqueoMoto.setCilindraje(EstacionamientoUtil.RANGO_CILINDRAJE_APLICA_RECARGO);
+		
+		//Assert
+		
+		Assert.assertNotNull(vehiculoParqueoMoto);
+	}
+	
+	@Test
 	public void comprobarSeteosVehiculoParqueoEntity(){
 		
 		//Arrange
@@ -374,6 +411,26 @@ public class EstacionamientoServiceTest {
 		//Assert
 		
 		Assert.assertNotNull(servicioParqueo);
+	}
+	
+	@Test
+	public void comprobarSeteosPeticionServicioParqueo(){
+		
+		//Arrange
+		
+		PeticionServicioParqueo peticionServicioParqueo = null;
+		
+		//Action
+		
+		peticionServicioParqueo = new PeticionServicioParqueo();
+		peticionServicioParqueo.setCilindrajeMoto(String.valueOf(EstacionamientoUtil.RANGO_CILINDRAJE_APLICA_RECARGO));
+		peticionServicioParqueo.setError("comprobacion en test");
+		peticionServicioParqueo.setFecha(EstacionamientoUtil.FECHA_ENTRADA);		
+		
+		//Assert
+		
+		Assert.assertNotNull(peticionServicioParqueo);
+		Assert.assertEquals("comprobacion en test",peticionServicioParqueo.getError());
 	}
 	
 	@Test
