@@ -158,4 +158,21 @@ public class EstacionamientoServiceTestInt {
 		
 		Assert.assertNotNull(listaVehiculoParqueo);
 	}
+	
+	@Test
+	public void comprobarSiRegistraVehiculoSalidaMoto() throws EstacionamientoException{
+		
+		//Arrange
+		
+		VehiculoParqueo vehiculoParqueoRespuesta = null;
+		
+		//Action
+		
+		when(vehiculoParqueoRepository.findById(Mockito.anyLong())).thenReturn(vehiculoParqueoEntityMoto);
+		vehiculoParqueoRespuesta = estacionamientoServiceImpl.registrarSalidaEstacionamiento(vehiculoParqueoEntityMoto.getId());
+		
+		//Assert
+		
+		Assert.assertTrue(Objects.nonNull(vehiculoParqueoRespuesta));
+	}
 }
