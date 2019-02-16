@@ -21,8 +21,6 @@ public final class EstacionamientoUtil {
 	public static final String ERROR_METODO_COMPROBAR_DISPONIBILIDAD = "Error en el método comprobarDisponibilidadParqueo: ";
 	public static final String PLACA_PRUEBA = "DNP142";
 	public static final String PLACA_EMPIEZA_CON_A = "ANP142";
-	public static final Calendar FECHA_ENTRADA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","12-03-2019 12:00:00");
-	public static final Calendar FECHA_SALIDA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","13-03-2019 15:00:00");
 	public static final int UN_SEGUNDO_EN_MILISEGUNDOS = 1000;
 	public static final int UNA_HORA_EN_SEGUNDOS = 3600;
 	public static final int UNA_HORA_EN_MILISEGUNDOS = 3600000;

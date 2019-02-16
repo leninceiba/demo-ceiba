@@ -3,6 +3,7 @@ package com.estacionamiento.service;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,6 +56,8 @@ public class EstacionamientoServiceTestInt {
 	private ServicioParqueoEntity servicioParqueoEntityMoto;
 	private ServicioParqueo servicioParqueoMoto;
 	private List<VehiculoParqueoEntity> listaVehiculoParqueoEntity;
+	public Calendar FECHA_ENTRADA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","12-03-2019 12:00:00");
+	public Calendar FECHA_SALIDA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","13-03-2019 15:00:00");		
 	
 	@Before
 	public void setupEntity(){
@@ -73,7 +76,7 @@ public class EstacionamientoServiceTestInt {
 		
 		VehiculoParqueo vehiculoParqueoCreadaCarro = new VehiculoParqueoBuild()
 				.withEstado(EstacionamientoUtil.ESTADO_PENDIENTE)
-				.withFechaEntrada(EstacionamientoUtil.FECHA_ENTRADA)
+				.withFechaEntrada(FECHA_ENTRADA)
 				.withPlacaVehiculo(EstacionamientoUtil.PLACA_PRUEBA)
 				.withServicioParqueo(servicioParqueoCarro).buildVehiculoParqueoCarro();
 		
@@ -92,7 +95,7 @@ public class EstacionamientoServiceTestInt {
 		
 		VehiculoParqueo vehiculoParqueoCreadaMoto = new VehiculoParqueoBuild()
 				.withEstado(EstacionamientoUtil.ESTADO_PENDIENTE)
-				.withFechaEntrada(EstacionamientoUtil.FECHA_ENTRADA)
+				.withFechaEntrada(FECHA_ENTRADA)
 				.withPlacaVehiculo(EstacionamientoUtil.PLACA_PRUEBA)
 				.withCilindrajeMoto(EstacionamientoUtil.RANGO_CILINDRAJE_APLICA_RECARGO+100)
 				.withServicioParqueo(servicioParqueoMoto).buildVehiculoParqueoMoto();

@@ -44,6 +44,9 @@ public class EstacionamientoServiceTest {
 	@Autowired
 	EstacionamientoController estacionamientoController;	
 	
+	public Calendar FECHA_ENTRADA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","12-03-2019 12:00:00");
+	public Calendar FECHA_SALIDA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","13-03-2019 15:00:00");	
+	
 	@Test
 	public void comprobarSiExisteVehiculoParqueado(){
 		
@@ -149,8 +152,8 @@ public class EstacionamientoServiceTest {
 		
 		//Arrange
 		
-		Calendar fechaEntrada = EstacionamientoUtil.FECHA_ENTRADA;
-		Calendar fechaSalida = EstacionamientoUtil.FECHA_SALIDA;
+		Calendar fechaEntrada = FECHA_ENTRADA;
+		Calendar fechaSalida = FECHA_SALIDA;
 		TiempoServicio tiempoServicioCalculado = null;
 		
 		//Action
@@ -293,7 +296,7 @@ public class EstacionamientoServiceTest {
 		
 		vehiculoParqueo = new VehiculoParqueo();
 		vehiculoParqueo.setId(18);
-		vehiculoParqueo.setFechaEntrada(EstacionamientoUtil.FECHA_ENTRADA);
+		vehiculoParqueo.setFechaEntrada(FECHA_ENTRADA);
 		vehiculoParqueo.setEstado(EstacionamientoUtil.ESTADO_PENDIENTE);
 		vehiculoParqueo.setValorServicio(18000);
 		vehiculoParqueo.setTiempoServicioHoras(18);
@@ -355,7 +358,7 @@ public class EstacionamientoServiceTest {
 		
 		vehiculoParqueoEntity = new VehiculoParqueoEntity();
 		vehiculoParqueoEntity.setId(18);
-		vehiculoParqueoEntity.setFechaEntrada(EstacionamientoUtil.FECHA_ENTRADA);
+		vehiculoParqueoEntity.setFechaEntrada(FECHA_ENTRADA);
 		vehiculoParqueoEntity.setEstado(EstacionamientoUtil.ESTADO_PENDIENTE);
 		vehiculoParqueoEntity.setValorServicio(18000);
 		vehiculoParqueoEntity.setTiempoServicio(18);
@@ -426,7 +429,7 @@ public class EstacionamientoServiceTest {
 		peticionServicioParqueo = new PeticionServicioParqueo();
 		peticionServicioParqueo.setCilindrajeMoto(String.valueOf(EstacionamientoUtil.RANGO_CILINDRAJE_APLICA_RECARGO));
 		peticionServicioParqueo.setError("comprobacion en test");
-		peticionServicioParqueo.setFecha(EstacionamientoUtil.FECHA_ENTRADA);		
+		peticionServicioParqueo.setFecha(FECHA_ENTRADA);		
 		
 		//Assert
 		
