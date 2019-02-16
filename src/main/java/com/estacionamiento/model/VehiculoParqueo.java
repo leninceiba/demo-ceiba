@@ -3,9 +3,11 @@ package com.estacionamiento.model;
 import java.util.Calendar;
 
 import com.estacionamiento.commons.util.EstacionamientoUtil;
+import com.estacionamiento.entity.VehiculoParqueoEntity;
 
-public class VehiculoParqueo {
+public class VehiculoParqueo extends VehiculoParqueoEntity{
 
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private Calendar fechaEntrada;
 	protected Calendar fechaSalida;
@@ -30,42 +32,52 @@ public class VehiculoParqueo {
 		this.servicioParqueo = servicioParqueo;
 	}
 
+	@Override
 	public long getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(long id) {
 		this.id = id;
 	}
 
+	@Override
 	public Calendar getFechaEntrada() {
 		return fechaEntrada;
 	}
 
+	@Override
 	public void setFechaEntrada(Calendar fechaEntrada) {
 		this.fechaEntrada = fechaEntrada;
 	}
 
+	@Override
 	public Calendar getFechaSalida() {
 		return fechaSalida;
 	}
 
+	@Override
 	public void setFechaSalida(Calendar fechaSalida) {
 		this.fechaSalida = fechaSalida;
 	}
 
+	@Override
 	public String getEstado() {
 		return estado;
 	}
 
+	@Override
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
 
+	@Override
 	public long getValorServicio() {
 		return valorServicio;
 	}
 
+	@Override
 	public void setValorServicio(long valorServicio) {
 		this.valorServicio = valorServicio;
 	}
@@ -86,10 +98,12 @@ public class VehiculoParqueo {
 		this.servicioParqueo = servicioParqueo;
 	}
 
+	@Override
 	public String getError() {
 		return error;
 	}
 
+	@Override
 	public void setError(String error) {
 		this.error = error;
 	}	
