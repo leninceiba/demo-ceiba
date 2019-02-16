@@ -163,7 +163,7 @@ public class EstacionamientoServiceImpl implements IEstacionamientoService{
 			vehiculoParqueoEntity.setTiempoServicio(vehiculoParqueo.getTiempoServicioHoras());
 			vehiculoParqueoEntity.setValorServicio(vehiculoParqueo.getValorServicio());
 			vehiculoParqueoRepository.save(vehiculoParqueoEntity);
-			servicioParqueoRepository.aumentarCupoDisponible(vehiculoParqueoEntity.getServicioParqueo().getId());
+			servicioParqueoRepository.aumentarCupoDisponible(vehiculoParqueoEntity.getServicioParqueoEntity().getId());
 		}
 		
 		return vehiculoParqueo;
