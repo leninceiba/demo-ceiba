@@ -94,6 +94,7 @@ public class EstacionamientoServiceTestInt {
 				.withEstado(EstacionamientoUtil.ESTADO_PENDIENTE)
 				.withFechaEntrada(EstacionamientoUtil.FECHA_ENTRADA)
 				.withPlacaVehiculo(EstacionamientoUtil.PLACA_PRUEBA)
+				.withCilindrajeMoto(EstacionamientoUtil.RANGO_CILINDRAJE_APLICA_RECARGO+100)
 				.withServicioParqueo(servicioParqueoMoto).buildVehiculoParqueoMoto();
 		
 		vehiculoParqueoEntityMoto = new VehiculoParqueoEntity(vehiculoParqueoCreadaMoto);		
@@ -157,6 +158,23 @@ public class EstacionamientoServiceTestInt {
 		//Assert
 		
 		Assert.assertNotNull(listaVehiculoParqueo);
+	}
+	
+	@Test
+	public void comprobarSiRegistraVehiculoSalidaCarro() throws EstacionamientoException{
+		
+		//Arrange
+		
+		VehiculoParqueo vehiculoParqueoRespuesta = null;
+		
+		//Action
+		
+		when(vehiculoParqueoRepository.findById(Mockito.anyLong())).thenReturn(vehiculoParqueoEntityCarro);
+		vehiculoParqueoRespuesta = estacionamientoServiceImpl.registrarSalidaEstacionamiento(vehiculoParqueoEntityCarro.getId());
+		
+		//Assert
+		
+		Assert.assertTrue(Objects.nonNull(vehiculoParqueoRespuesta));
 	}
 	
 	@Test
