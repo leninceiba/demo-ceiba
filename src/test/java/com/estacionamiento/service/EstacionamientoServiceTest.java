@@ -304,5 +304,25 @@ public class EstacionamientoServiceTest {
 		Assert.assertEquals(18,vehiculoParqueo.getId());
 		Assert.assertEquals("comprobacion en test",vehiculoParqueo.getError());
 	}
+	
+	@Test
+	public void comprobarCalculoValorTotalAPagar(){
+		
+		//Arrange
+		
+		long valorTotalAPagar;
+		TiempoServicio tiempoServicio = new TiempoServicio(23,0);
+		ServicioParqueo servicioParqueo = new ServicioParqueoBuild().build();	
+		VehiculoParqueo vehiculoParqueo = new VehiculoParqueo();
+		
+		//Action
+
+		vehiculoParqueo.setServicioParqueo(servicioParqueo);
+		valorTotalAPagar = vehiculoParqueo.calcularValorTotalAPagar(tiempoServicio);
+		
+		//Assert
+		
+		Assert.assertNotNull(valorTotalAPagar);
+	}
 
 }
