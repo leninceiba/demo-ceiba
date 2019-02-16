@@ -18,10 +18,12 @@ public class VehiculoParqueoBuild {
 	private ServicioParqueo servicioParqueo;
 	private String placaVehiculo;
 	private int cilindrajeMoto;
+	public Calendar FECHA_ENTRADA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","12-03-2019 12:00:00");
+	public Calendar FECHA_SALIDA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","13-03-2019 15:00:00");		
 	
 	public VehiculoParqueoBuild() {
-		this.fechaEntrada = EstacionamientoUtil.FECHA_ENTRADA;
-		this.fechaSalida = EstacionamientoUtil.FECHA_SALIDA;
+		this.fechaEntrada = FECHA_ENTRADA;
+		this.fechaSalida = FECHA_SALIDA;
 		this.estado = EstacionamientoUtil.ESTADO_PENDIENTE;
 		this.placaVehiculo = "XHJ142";
 		this.servicioParqueo = new ServicioParqueoBuild().withCodigo(1).withDescripcion("carro").withCupoMaximo(20).withTarifaHora(1000).withTarifaDia(8000).build();
