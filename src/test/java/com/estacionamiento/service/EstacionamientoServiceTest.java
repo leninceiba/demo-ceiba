@@ -111,25 +111,6 @@ public class EstacionamientoServiceTest {
 	}
 	
 	@Test
-	public void comprobarRestriccionPlacaVehiculo(){
-		
-		//Arrange
-		
-		ServicioParqueo servicioParqueoEncontrado = null;
-		PeticionServicioParqueo peticionServicioParqueo = new PeticionServicioParqueo(EstacionamientoUtil.PLACA_EMPIEZA_CON_A, null, 1, Calendar.getInstance());
-		ServicioParqueo servicioParqueo = new ServicioParqueoBuild().withCodigo(1).build();
-		
-		//Action
-		
-		when(servicioParqueoRepository.findByCodigo(servicioParqueo.getCodigo())).thenReturn(new ServicioParqueoEntity(servicioParqueo));
-		servicioParqueoEncontrado = estacionamientoServiceImpl.comprobarDisponibilidadParqueo(peticionServicioParqueo);
-		
-		//Assert
-		
-		Assert.assertEquals(EstacionamientoUtil.PLACA_NO_AUTORIZADA, servicioParqueoEncontrado.getError());
-	}
-	
-	@Test
 	public void comprobarFormatoFechaCalendar(){
 		
 		//Arrange
