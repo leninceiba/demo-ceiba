@@ -25,3 +25,4 @@
 /nbdist/
 /.nb-gradle/
 /bin/
+/hs_err_pid13644.log

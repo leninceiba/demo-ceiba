@@ -6,8 +6,8 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.estacionamiento.bussines.EstacionamientoBussines;
 import com.estacionamiento.model.TiempoServicio;
-import com.estacionamiento.service.impl.EstacionamientoServiceImpl;
 
 public final class EstacionamientoUtil {
 	
@@ -31,7 +31,7 @@ public final class EstacionamientoUtil {
 	public static final int DIA_EN_HORAS = 24;
 	public static final int COBRAR_UN_DIA = 1;
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(EstacionamientoServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(EstacionamientoBussines.class);
 	
 	private EstacionamientoUtil() {
 		super();

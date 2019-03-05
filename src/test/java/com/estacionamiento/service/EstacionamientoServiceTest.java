@@ -1,58 +1,59 @@
 package com.estacionamiento.service;
 
+import static org.mockito.Mockito.when;
+
 import java.util.Calendar;
 import java.util.List;
+
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import static org.mockito.Mockito.when;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import com.estacionamiento.builders.VehiculoParqueoBuild;
 import com.estacionamiento.builders.ServicioParqueoBuild;
+import com.estacionamiento.builders.VehiculoParqueoBuild;
+import com.estacionamiento.bussines.EstacionamientoBussines;
 import com.estacionamiento.commons.util.EstacionamientoUtil;
-import com.estacionamiento.controller.EstacionamientoController;
+import com.estacionamiento.entity.ServicioParqueoEntity;
 import com.estacionamiento.entity.VehiculoParqueoEntity;
 import com.estacionamiento.exception.EstacionamientoException;
-import com.estacionamiento.entity.ServicioParqueoEntity;
-import com.estacionamiento.model.VehiculoParqueo;
-import com.estacionamiento.model.VehiculoParqueoCarro;
-import com.estacionamiento.model.VehiculoParqueoMoto;
 import com.estacionamiento.model.PeticionServicioParqueo;
 import com.estacionamiento.model.ServicioParqueo;
 import com.estacionamiento.model.TiempoServicio;
-import com.estacionamiento.repository.VehiculoParqueoRepository;
-import com.estacionamiento.repository.ServicioParqueoRepository;
-import com.estacionamiento.service.impl.EstacionamientoServiceImpl;
+import com.estacionamiento.model.VehiculoParqueo;
+import com.estacionamiento.model.VehiculoParqueoCarro;
+import com.estacionamiento.model.VehiculoParqueoMoto;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class EstacionamientoServiceTest {
 	
-	@MockBean
-	ServicioParqueoRepository servicioParqueoRepository;
+	@Mock
+	EstacionamientoService estacionamientoService;	
 	
-	@MockBean
-	VehiculoParqueoRepository vehiculoParqueoRepository;
-	
-	@Autowired
-	EstacionamientoServiceImpl estacionamientoServiceImpl;
-	
-	@Autowired
-	EstacionamientoController estacionamientoController;	
+	@InjectMocks
+	EstacionamientoBussines estacionamientoBussines;
 	
 	public Calendar FECHA_ENTRADA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","12-03-2019 12:00:00");
 	public Calendar FECHA_SALIDA = EstacionamientoUtil.getFechaCalendar("dd-M-yyyy HH:mm:ss","13-03-2019 15:00:00");	
 	
+	@Before
+	public void setupEntity() {
+
+		MockitoAnnotations.initMocks(this);
+	}
+	
 	@Test
-	public void comprobarSiExisteVehiculoParqueado(){
+	public void comprobarSiExisteVehiculoParqueado() throws EstacionamientoException{
 		
 		//Arrange
 		
-		VehiculoParqueoEntity vehiculoParqueoExiste = null;
+		VehiculoParqueo vehiculoParqueoExiste = null;
 		ServicioParqueo servicioParqueo = new ServicioParqueoBuild().withCodigo(1).build();
 		PeticionServicioParqueo peticionServicioParqueo = new PeticionServicioParqueo(EstacionamientoUtil.PLACA_PRUEBA, null, 1, Calendar.getInstance());
 		VehiculoParqueo vehiculoParqueo = new VehiculoParqueoBuild()
@@ -64,16 +65,16 @@ public class EstacionamientoServiceTest {
 		
 		//Action
 		
-		when(vehiculoParqueoRepository.findByPlacaVehiculoByEstado(peticionServicioParqueo.getPlacaVehiculo(),EstacionamientoUtil.ESTADO_PENDIENTE)).thenReturn(new VehiculoParqueoEntity(vehiculoParqueo));
-		vehiculoParqueoExiste = estacionamientoServiceImpl.existeVehiculoParqueado(peticionServicioParqueo);
+		when(estacionamientoService.findVehiculoParqueoByPlacaByEstado(Mockito.anyString(),Mockito.anyString())).thenReturn(new VehiculoParqueoEntity(vehiculoParqueo));
+		vehiculoParqueoExiste = estacionamientoBussines.registrarEntradaEstacionamiento(peticionServicioParqueo);
 		
 		//Assert
 		
-		Assert.assertNotNull(vehiculoParqueoExiste);		
+		Assert.assertEquals(EstacionamientoUtil.EXISTE_VEHICULO,vehiculoParqueoExiste.getError());		
 	}
 	
 	@Test
-	public void comprobarDisponibilidadServicioTipoCarro(){
+	public void comprobarDisponibilidadServicioTipoCarro() throws EstacionamientoException{
 		
 		//Arrange
 		
@@ -83,38 +84,58 @@ public class EstacionamientoServiceTest {
 		
 		//Action
 		
-		when(servicioParqueoRepository.findByCodigo(servicioParqueo.getCodigo())).thenReturn(new ServicioParqueoEntity(servicioParqueo));
-		servicioParqueoEncontrado = estacionamientoServiceImpl.comprobarDisponibilidadParqueo(peticionServicioParqueo);
+		when(estacionamientoService.findServicioParqueoByCodigo(Mockito.anyInt())).thenReturn(new ServicioParqueoEntity(servicioParqueo));
+		servicioParqueoEncontrado = estacionamientoBussines.comprobarCupoDisponible(peticionServicioParqueo.getTipoVehiculo());
 		
 		//Assert
 		
-		Assert.assertNotNull(servicioParqueoEncontrado);
+		Assert.assertEquals(servicioParqueo.getCodigo(), servicioParqueoEncontrado.getCodigo());
 	}
 	
 	@Test
-	public void comprobarSinCupoServicioTipoCarro(){
+	public void comprobarSinCupoServicioTipoCarro() throws EstacionamientoException{
 		
 		//Arrange
 		
 		ServicioParqueo servicioParqueoEncontrado = null;
 		PeticionServicioParqueo peticionServicioParqueo = new PeticionServicioParqueo(EstacionamientoUtil.PLACA_PRUEBA, null, 1, Calendar.getInstance());
 		ServicioParqueo servicioParqueo = new ServicioParqueoBuild().withCodigo(1).withCupoDisponible(0).build();
-		
 		//Action
 		
-		when(servicioParqueoRepository.findByCodigo(servicioParqueo.getCodigo())).thenReturn(new ServicioParqueoEntity(servicioParqueo));
-		servicioParqueoEncontrado = estacionamientoServiceImpl.comprobarDisponibilidadParqueo(peticionServicioParqueo);
+		when(estacionamientoService.findServicioParqueoByCodigo(Mockito.anyInt())).thenReturn(new ServicioParqueoEntity(servicioParqueo));
+		servicioParqueoEncontrado = estacionamientoBussines.comprobarCupoDisponible(peticionServicioParqueo.getTipoVehiculo());
 		
 		//Assert
 		
+		System.out.println("servicioParqueoEncontrado.getError() ::::+> "+servicioParqueoEncontrado.getError());
 		Assert.assertEquals(EstacionamientoUtil.SIN_CUPO, servicioParqueoEncontrado.getError());
 	}
+	
+//	@Test
+//	public void comprobarRestriccionPlacaVehiculo(){
+//		
+//		//Arrange
+//		
+//		ServicioParqueo servicioParqueoEncontrado = null;
+//		PeticionServicioParqueo peticionServicioParqueo = new PeticionServicioParqueo(EstacionamientoUtil.PLACA_EMPIEZA_CON_A, null, 1, Calendar.getInstance());
+//		ServicioParqueo servicioParqueo = new ServicioParqueoBuild().withCodigo(1).build();
+//		
+//		//Action
+//		
+//		when(estacionamientoService.findServicioParqueoByCodigo(Mockito.anyInt())).thenReturn(new ServicioParqueoEntity(servicioParqueo));
+//		servicioParqueoEncontrado = estacionamientoBussines.comprobarDisponibilidadParqueo(peticionServicioParqueo);
+//		
+//		//Assert
+//		
+//		Assert.assertEquals(EstacionamientoUtil.PLACA_NO_AUTORIZADA, servicioParqueoEncontrado.getError());
+//	}
 	
 	@Test
 	public void comprobarFormatoFechaCalendar(){
 		
 		//Arrange
 		
+		int laFechaEsSuperiorALaFormateada = 1;
 		String formato = "dd-M-yyyy HH:mm:ss";
 		String fecha = "12-03-2019 12:00:00";
 		Calendar fechaFormateada;
@@ -124,8 +145,8 @@ public class EstacionamientoServiceTest {
 		fechaFormateada = EstacionamientoUtil.getFechaCalendar(formato, fecha);
 		
 		//Assert
-		
-		Assert.assertNotNull(fechaFormateada);
+		System.out.println("fechaFormateada.getTime() ::::+> "+fechaFormateada.getTime().compareTo(Calendar.getInstance().getTime()));
+		Assert.assertEquals(laFechaEsSuperiorALaFormateada, fechaFormateada.getTime().compareTo(Calendar.getInstance().getTime()));
 	}
 	
 	@Test
@@ -133,6 +154,8 @@ public class EstacionamientoServiceTest {
 		
 		//Arrange
 		
+		int unDia = 1;
+		int tresHoras = 3;
 		Calendar fechaEntrada = FECHA_ENTRADA;
 		Calendar fechaSalida = FECHA_SALIDA;
 		TiempoServicio tiempoServicioCalculado = null;
@@ -143,8 +166,8 @@ public class EstacionamientoServiceTest {
 		
 		//Assert
 		
-		Assert.assertEquals(1,tiempoServicioCalculado.getDias());
-		Assert.assertEquals(3,tiempoServicioCalculado.getHoras());
+		Assert.assertEquals(unDia,tiempoServicioCalculado.getDias());
+		Assert.assertEquals(tresHoras,tiempoServicioCalculado.getHoras());
 	}
 	
 	@Test
@@ -177,7 +200,7 @@ public class EstacionamientoServiceTest {
 		
 		//Arrange
 		
-		VehiculoParqueoEntity vehiculoParqueoEntityRespuesta = null;
+		VehiculoParqueo vehiculoParqueoRespuesta = null;
 		PeticionServicioParqueo peticionServicioParqueo = new PeticionServicioParqueo();
 		peticionServicioParqueo.setPlacaVehiculo(EstacionamientoUtil.PLACA_PRUEBA);
 		peticionServicioParqueo.setTipoVehiculo(1);
@@ -185,16 +208,16 @@ public class EstacionamientoServiceTest {
 		
 		//Action
 		
-		when(servicioParqueoRepository.findByCodigo(servicioParqueo.getCodigo())).thenReturn(new ServicioParqueoEntity(servicioParqueo));
-		vehiculoParqueoEntityRespuesta = estacionamientoController.registrarEntradaEstacionamiento(peticionServicioParqueo);
+		when(estacionamientoService.findServicioParqueoByCodigo(Mockito.anyInt())).thenReturn(new ServicioParqueoEntity(servicioParqueo));
+		vehiculoParqueoRespuesta = estacionamientoBussines.registrarEntradaEstacionamiento(peticionServicioParqueo);
 		
 		//Assert
 		
-		Assert.assertNotNull(vehiculoParqueoEntityRespuesta);
+		Assert.assertNull(vehiculoParqueoRespuesta.getError());
 	}
 	
 	@Test
-	public void comprobarConsultarVehiculos() throws EstacionamientoException{
+	public void comprobarConsultarVehiculos(){
 		
 		//Arrange
 		
@@ -202,7 +225,7 @@ public class EstacionamientoServiceTest {
 		
 		//Action
 		
-		listaVehiculoParqueo = estacionamientoController.consultarVehiculos();
+		listaVehiculoParqueo = estacionamientoBussines.consultarVehiculos();
 		
 		//Assert
 		
@@ -214,7 +237,7 @@ public class EstacionamientoServiceTest {
 		
 		//Arrange
 		
-		VehiculoParqueoEntity vehiculoParqueoEntity = null;
+		VehiculoParqueoEntity vehiculoParqueo = null;
 		PeticionServicioParqueo peticionServicioParqueoCarro = new PeticionServicioParqueo(EstacionamientoUtil.PLACA_PRUEBA, null, 1, Calendar.getInstance());
 		ServicioParqueo servicioParqueo = new ServicioParqueoBuild()
 				.withCodigo(1)
@@ -222,11 +245,11 @@ public class EstacionamientoServiceTest {
 		
 		//Action
 		
-		vehiculoParqueoEntity = estacionamientoServiceImpl.crearVehiculoParqueo(servicioParqueo);
+		vehiculoParqueo = estacionamientoBussines.inicializarVehiculoParqueo(servicioParqueo);
 		
 		//Assert
 		
-		Assert.assertNotNull(vehiculoParqueoEntity);
+		Assert.assertEquals(vehiculoParqueo.getClass().getSimpleName(),"VehiculoParqueoCarro");
 	}
 	
 	@Test
@@ -234,7 +257,7 @@ public class EstacionamientoServiceTest {
 		
 		//Arrange
 		
-		VehiculoParqueoEntity vehiculoParqueoEntity = null;
+		VehiculoParqueo vehiculoParqueo = null;
 		PeticionServicioParqueo peticionServicioParqueoMoto = new PeticionServicioParqueo(EstacionamientoUtil.PLACA_PRUEBA, String.valueOf(EstacionamientoUtil.RANGO_CILINDRAJE_APLICA_RECARGO), 2, Calendar.getInstance());
 		ServicioParqueo servicioParqueo = new ServicioParqueoBuild()
 				.withCodigo(2)
@@ -242,11 +265,11 @@ public class EstacionamientoServiceTest {
 		
 		//Action
 		
-		vehiculoParqueoEntity = estacionamientoServiceImpl.crearVehiculoParqueo(servicioParqueo);
+		vehiculoParqueo = estacionamientoBussines.inicializarVehiculoParqueo(servicioParqueo);
 		
 		//Assert
-		
-		Assert.assertNotNull(vehiculoParqueoEntity);
+
+		Assert.assertEquals(vehiculoParqueo.getClass().getSimpleName(),"VehiculoParqueoMoto");
 	}
 	
 	@Test

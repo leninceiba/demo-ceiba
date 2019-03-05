@@ -42,6 +42,7 @@ public class ServicioParqueoEntity implements Serializable {
 	public ServicioParqueoEntity(ServicioParqueo servicioParqueo) {
 		super();		
 		this.id = servicioParqueo.getId();
+		this.codigo = servicioParqueo.getCodigo();
 		this.descripcion = servicioParqueo.getDescripcion();
 		this.cupoMaximo = servicioParqueo.getCupoMaximo();
 		this.cupoDisponible = servicioParqueo.getCupoDisponible();
